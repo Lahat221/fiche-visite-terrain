@@ -1,0 +1,1553 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fiche Visite Terrain</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f4f7f8;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .form-container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            max-width: 900px;
+            width: 100%;
+            margin-top: 40px;
+            position: relative;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 25px;
+            font-weight: 700;
+            padding: 15px;
+            border: 3px solid #3498db;
+            border-radius: 10px;
+            background-color: #e8f0f7;
+            display: inline-block;
+        }
+
+        fieldset {
+            border: none;
+            margin-bottom: 20px;
+        }
+
+        legend {
+            font-size: 22px;
+            color: #333;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        input,
+        select,
+        textarea {
+            width: calc(100% - 16px);
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            font-size: 14px;
+            box-sizing: border-box;
+            background-color: #f9f9f9;
+        }
+
+        input:focus,
+        textarea:focus {
+            border-color: #3498db;
+            background-color: #fff;
+            outline: none;
+            box-shadow: 0 0 4px rgba(52, 152, 219, 0.3);
+        }
+
+        button {
+            width: auto;
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+            transform: scale(1.05);
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .form-container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 20px;
+            }
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+
+<body>
+
+    <div class="form-container">
+        <!-- Logo en haut à droite -->
+        <img src="C:\Users\lahat\Downloads\MonProjetHTML\1B62AE7BAEAF42759F64E7E0BEF582DE_7644749_.bmp" alt="Logo"
+            class="logo">
+        <h1>Fiche Terrain Groupe APPORE</h1>
+
+        <form id="visitForm">
+            <!-- Page 1: Informations personnelles -->
+            <div class="page active" id="page1">
+                <fieldset>
+                    <legend>Informations personnelles</legend>
+                    <label for="nom">Nom :</label>
+                    <input type="text" id="nom" name="nom" required>
+                    <label for="prenom">Prénom :</label>
+                    <input type="text" id="prenom" name="prenom" required>
+                    <label for="dateVisit">Date de visite :</label>
+                    <input type="date" id="dateVisit" name="dateVisit" required>
+                </fieldset>
+                <button type="button" onclick="showPage(2)">Suivant</button>
+            </div>
+
+            <!-- Page 2: Synthèse -->
+            <div class="page" id="page2">
+                <fieldset>
+                    <legend>Synthèse</legend>
+
+                    <label for="chauffage">Système de chauffage principal utilisé :</label>
+                    <input type="text" id="chauffage" name="chauffage">
+
+                    <label for="chauffAppoint">Système de chauffe d'appoint utilisé :</label>
+                    <input type="text" id="chauffAppoint" name="chauffAppoint">
+
+                    <label for="surfaceHabitable">Surface habitable [m²] :</label>
+                    <input type="number" id="surfaceHabitable" name="surfaceHabitable">
+
+                    <label for="surfacePlancherBas">Surface du / des plancher(s) bas [m²] :</label>
+                    <input type="number" id="surfacePlancherBas" name="surfacePlancherBas">
+
+                    <label for="surfaceComblesAménageables">Surface totale des combles aménageables [m²] :</label>
+                    <input type="number" id="surfaceComblesAménageables" name="surfaceComblesAménageables">
+
+                    <label for="surfaceComblesPerdus">Surface totale des combles perdus [m²] :</label>
+                    <input type="number" id="surfaceComblesPerdus" name="surfaceComblesPerdus">
+
+                    <label for="surfaceFacadesExterieurs">Surface des façades extérieurs (fenêtres déduites) [m²]
+                        :</label>
+                    <input type="number" id="surfaceFacadesExterieurs" name="surfaceFacadesExterieurs">
+
+                    <label for="surfaceRampants">Surface totale des rampants [m²] :</label>
+                    <input type="number" id="surfaceRampants" name="surfaceRampants">
+
+                    <label for="surfaceRampantsAménagés">Surface totale des rampants aménagés [m²] :</label>
+                    <input type="number" id="surfaceRampantsAménagés" name="surfaceRampantsAménagés">
+
+                    <label for="surfaceITI">Surface totale ITI [m²] :</label>
+                    <input type="number" id="surfaceITI" name="surfaceITI">
+
+                    <label for="revenuFiscale">Revenu fiscal de référence :</label>
+                    <input type="text" id="revenuFiscale" name="revenuFiscale">
+
+                    <label for="contactAuditeurPrenom">Contact auditeur Prénom :</label>
+                    <input type="text" id="contactAuditeurPrenom" name="contactAuditeurPrenom">
+
+                    <label for="telephone1">Téléphone 1 :</label>
+                    <input type="tel" id="telephone1" name="telephone1">
+
+                </fieldset>
+                <button type="button" onclick="showPage(1)">Précédent</button>
+                <button type="button" onclick="showPage(3)">Suivant</button>
+            </div>
+
+
+            <!-- Page 3: Données générales -->
+            <div class="page" id="page3">
+                <fieldset>
+                    <legend>Données générales</legend>
+
+                    <label for="geolocalisation">Géolocalisation :</label>
+                    <input type="text" id="geolocalisation" name="geolocalisation">
+
+                    <label for="date">Date :</label>
+                    <input type="date" id="date" name="date">
+
+                    <label for="nom">Nom :</label>
+                    <input type="text" id="nom" name="nom">
+
+                    <label for="prenom">Prénom :</label>
+                    <input type="text" id="prenom" name="prenom">
+
+                    <label for="adresse">Adresse :</label>
+                    <input type="text" id="adresse" name="adresse">
+
+                    <label for="codePostale">Code postale :</label>
+                    <input type="text" id="codePostale" name="codePostale">
+
+                    <label for="ville">Ville :</label>
+                    <input type="text" id="ville" name="ville">
+
+                    <label for="telephone">N° Téléphone :</label>
+                    <input type="tel" id="telephone" name="telephone">
+
+                    <label for="email">E-mail :</label>
+                    <input type="email" id="email" name="email">
+
+                    <label for="dateConstruction">Date de construction :</label>
+                    <input type="date" id="dateConstruction" name="dateConstruction">
+
+                    <label for="facadePhoto">Photo de la façade principale :</label>
+                    <input type="file" id="facadePhoto" name="facadePhoto" accept="image/*">
+
+                    <label for="porteEntree">Type de porte d'entrée :</label>
+                    <input type="text" id="porteEntree" name="porteEntree">
+
+                </fieldset>
+                <button type="button" onclick="showPage(2)">Précédent</button>
+                <button type="button" onclick="showPage(4)">Suivant</button>
+            </div>
+
+            <!-- Page 4: Documents administratifs -->
+            <div class="page" id="page4">
+                <fieldset>
+                    <legend>Documents administratifs</legend>
+
+                    <label for="besoinClient">Besoin client :</label>
+                    <textarea id="besoinClient" name="besoinClient"></textarea>
+
+                    <label for="chauffagePref">Mode de chauffage à installer de préférence :</label>
+                    <input type="text" id="chauffagePref" name="chauffagePref">
+
+                    <label for="isolationPref">Isolation à effectuer de préférence :</label>
+                    <input type="text" id="isolationPref" name="isolationPref">
+
+                    <label for="taxeFonc">Taxe foncière ou acte notarié :</label>
+                    <input type="file" id="taxeFonc" name="taxeFonc" accept="image/*">
+
+                    <label for="pieceIdentite">Pièce d'identité (Recto/Verso) :</label>
+                    <input type="file" id="pieceIdentite" name="pieceIdentite" accept="image/*">
+
+                    <label for="factures">Factures (Gaz / Fioul / Électricité) :</label>
+                    <input type="file" id="factures" name="factures" accept="image/*">
+
+                    <label for="planCroquis">Plan / Croquis (Étage par étage) :</label>
+                    <input type="file" id="planCroquis" name="planCroquis" accept="image/*">
+
+                    <label for="pieceJointe">Pièce jointe :</label>
+                    <input type="file" id="pieceJointe" name="pieceJointe" accept="image/*">
+
+                    <label for="particularites">Particularité(s) à signaler :</label>
+                    <textarea id="particularites" name="particularites"></textarea>
+
+                </fieldset>
+                <button type="button" onclick="showPage(3)">Précédent</button>
+                <button type="button" onclick="showPage(5)">Suivant</button>
+            </div>
+
+            <!-- Page 5: Composition de l'habitation (Murs) -->
+            <div class="page" id="page5">
+                <fieldset>
+                    <legend>Composition de l'habitation - Murs</legend>
+
+                    <label for="typeMurs">Type des murs extérieurs :</label>
+                    <input type="text" id="typeMurs" name="typeMurs">
+
+                    <label for="epaisseurMurs">Épaisseur des murs [cm] :</label>
+                    <input type="number" id="epaisseurMurs" name="epaisseurMurs">
+
+                    <label for="typeIsolation">Type d'isolation actuelle :</label>
+                    <input type="text" id="typeIsolation" name="typeIsolation">
+
+                    <label for="ancienneteIsolation">Ancienneté de l'isolation :</label>
+                    <input type="text" id="ancienneteIsolation" name="ancienneteIsolation">
+
+                    <label for="photosMurs">Photo(s) des murs :</label>
+                    <input type="file" id="photosMurs" name="photosMurs" accept="image/*">
+
+                    <label for="particularitesMurs">Particularité(s) à signaler :</label>
+                    <textarea id="particularitesMurs" name="particularitesMurs"></textarea>
+
+                </fieldset>
+                <button type="button" onclick="showPage(4)">Précédent</button>
+                <button type="button" onclick="showPage(6)">Suivant</button>
+            </div>
+
+            <!-- Page 6: Les combles -->
+            <div class="page" id="page6">
+                <fieldset>
+                    <legend>Les combles</legend>
+
+                    <label for="typeCombles">Type des combles :</label>
+                    <input type="text" id="typeCombles" name="typeCombles">
+
+                    <label for="typeAccesCombles">Type d'accès aux combles :</label>
+                    <input type="text" id="typeAccesCombles" name="typeAccesCombles">
+
+                    <label for="longueurComblesPerdus">Longueur des combles perdus [m] :</label>
+                    <input type="number" id="longueurComblesPerdus" name="longueurComblesPerdus">
+
+                    <label for="largeurComblesPerdus">Largeur des combles perdus [m] :</label>
+                    <input type="number" id="largeurComblesPerdus" name="largeurComblesPerdus">
+
+                    <label for="nombreRampant">Nombre de rampant :</label>
+                    <input type="number" id="nombreRampant" name="nombreRampant">
+
+                    <label for="longueurRampant1">Longueur du rampant n°1 [m] :</label>
+                    <input type="number" id="longueurRampant1" name="longueurRampant1">
+
+                    <label for="longueurRampant2">Longueur du rampant n°2 [m] :</label>
+                    <input type="number" id="longueurRampant2" name="longueurRampant2">
+
+                    <label for="largeurRampant1">Largeur du rampant n°1 [m] :</label>
+                    <input type="number" id="largeurRampant1" name="largeurRampant1">
+
+                    <label for="largeurRampant2">Largeur du rampant n°2 [m] :</label>
+                    <input type="number" id="largeurRampant2" name="largeurRampant2">
+
+                    <label for="photosCombles">Photo(s) des combles :</label>
+                    <input type="file" id="photosCombles" name="photosCombles" accept="image/*">
+
+                    <label for="surfaceRampant">Surface du rampant [m²] :</label>
+                    <input type="number" id="surfaceRampant" name="surfaceRampant">
+
+                    <label for="surfaceComblesPerdus">Surface des combles perdus [m²] :</label>
+                    <input type="number" id="surfaceComblesPerdus" name="surfaceComblesPerdus">
+
+                    <label for="compositionPlafond">Composition du plafond :</label>
+                    <input type="text" id="compositionPlafond" name="compositionPlafond">
+
+                    <label for="preuveIsolation">Preuve d'isolation :</label>
+                    <input type="file" id="preuveIsolation" name="preuveIsolation" accept="image/*">
+
+                </fieldset>
+                <button type="button" onclick="showPage(5)">Précédent</button>
+                <button type="button" onclick="showPage(7)">Suivant</button>
+            </div>
+
+            <!-- Page 7: Plancher bas et Garage -->
+            <div class="page" id="page7">
+                <fieldset>
+                    <legend>Plancher bas</legend>
+
+                    <label for="typePlancherBas">Type de plancher bas :</label>
+                    <input type="text" id="typePlancherBas" name="typePlancherBas">
+
+                    <label for="longueurPlancherBas">Longueur du plancher bas [m] :</label>
+                    <input type="number" id="longueurPlancherBas" name="longueurPlancherBas">
+
+                    <label for="largeurPlancherBas">Largeur du plancher bas [m] :</label>
+                    <input type="number" id="largeurPlancherBas" name="largeurPlancherBas">
+
+                    <label for="surfacePlancherBas">Surface du plancher bas [m²] :</label>
+                    <input type="number" id="surfacePlancherBas" name="surfacePlancherBas">
+
+                    <label for="compositionPlancherBas">Composition du plancher bas :</label>
+                    <input type="text" id="compositionPlancherBas" name="compositionPlancherBas">
+
+                    <label for="ancienneteIsolationPlancher">Ancienneté d'isolation actuelle :</label>
+                    <input type="text" id="ancienneteIsolationPlancher" name="ancienneteIsolationPlancher">
+
+                    <label for="epaisseurIsolation">Épaisseur de l'isolant [cm] :</label>
+                    <input type="number" id="epaisseurIsolation" name="epaisseurIsolation">
+
+                    <label for="photosPlancherBas">Photos du plancher bas, de la pièce ainsi que de l'isolation
+                        :</label>
+                    <input type="file" id="photosPlancherBas" name="photosPlancherBas" accept="image/*">
+
+                    <label for="particularitesPlancherBas">Particularité(s) à signaler :</label>
+                    <textarea id="particularitesPlancherBas" name="particularitesPlancherBas"></textarea>
+
+                </fieldset>
+
+                <fieldset>
+                    <legend>Garage</legend>
+
+                    <label for="garagePresence">Présence d'un garage collé à la maison :</label>
+                    <input type="text" id="garagePresence" name="garagePresence">
+
+                    <label for="surfaceMurGarage">Surface du mur [m²] :</label>
+                    <input type="number" id="surfaceMurGarage" name="surfaceMurGarage">
+
+                    <label for="surfaceTotaleMursGarage">Surface totale des murs de garages (dans le cas de plusieurs
+                        garages) :</label>
+                    <input type="number" id="surfaceTotaleMursGarage" name="surfaceTotaleMursGarage">
+
+                </fieldset>
+
+                <button type="button" onclick="showPage(6)">Précédent</button>
+                <button type="button" onclick="showPage(8)">Suivant</button>
+            </div>
+
+            <!-- Page 8: Architecture -->
+            <div class="page" id="page8">
+                <fieldset>
+                    <legend>Architecture</legend>
+
+                    <label for="descriptionMaison">Description détaillée de la maison :</label>
+                    <textarea id="descriptionMaison" name="descriptionMaison"></textarea>
+
+                    <label for="plusUn">+ 1 :</label>
+                    <input type="text" id="plusUn" name="plusUn">
+
+                    <label for="etatOccupation">État d'occupation :</label>
+                    <input type="text" id="etatOccupation" name="etatOccupation">
+
+                    <label for="typePlancherHaut">Type de plancher haut :</label>
+                    <input type="text" id="typePlancherHaut" name="typePlancherHaut">
+
+                    <label for="typePlancherBasArch">Type de plancher bas :</label>
+                    <input type="text" id="typePlancherBasArch" name="typePlancherBasArch">
+
+                    <label for="vitrageGeneral">Vitrage générale :</label>
+                    <input type="text" id="vitrageGeneral" name="vitrageGeneral">
+
+                    <label for="huisserieGenerale">Huisserie générale :</label>
+                    <input type="text" id="huisserieGenerale" name="huisserieGenerale">
+
+                </fieldset>
+                <button type="button" onclick="showPage(7)">Précédent</button>
+                <button type="button" onclick="showPage(9)">Suivant</button>
+            </div>
+
+            <!-- Page 9: Caractéristiques techniques -->
+            <div class="page" id="page9">
+                <fieldset>
+                    <legend>Pathologies observées</legend>
+
+                    <label for="pathologie">Pathologie :</label>
+                    <input type="text" id="pathologie" name="pathologie">
+
+                    <label for="photosPathologie">Photo(s) de la pathologie :</label>
+                    <input type="file" id="photosPathologie" name="photosPathologie" accept="image/*">
+
+                </fieldset>
+
+                <fieldset>
+                    <legend>Éclairage</legend>
+
+                    <label for="typeEclairage">Type d'éclairage :</label>
+                    <input type="text" id="typeEclairage" name="typeEclairage">
+
+                </fieldset>
+
+                <fieldset>
+                    <legend>Système de chauffage</legend>
+
+                    <label for="emplacementChauffage">Emplacement du système de chauffage :</label>
+                    <input type="text" id="emplacementChauffage" name="emplacementChauffage">
+
+                    <label for="energieChauffage">Énergie utilisée par le système de chauffage :</label>
+                    <input type="text" id="energieChauffage" name="energieChauffage">
+
+                    <label for="typeGenerateur">Type de générateur de chaleur :</label>
+                    <input type="text" id="typeGenerateur" name="typeGenerateur">
+
+                    <label for="anneeMiseOeuvre">Année de mise en œuvre :</label>
+                    <input type="number" id="anneeMiseOeuvre" name="anneeMiseOeuvre">
+
+                    <label for="puissance">Puissance [kW] :</label>
+                    <input type="number" id="puissance" name="puissance">
+
+                    <label for="emetteursChaleur">Émetteur(s) de chaleur :</label>
+                    <input type="text" id="emetteursChaleur" name="emetteursChaleur">
+
+                    <label for="systemeRegulation">Système(s) de régulation de l'émetteur de chaleur :</label>
+                    <input type="text" id="systemeRegulation" name="systemeRegulation">
+
+                    <label for="hauteurChaufferie">Hauteur de la chaufferie :</label>
+                    <input type="number" id="hauteurChaufferie" name="hauteurChaufferie">
+
+                    <label for="photosChaufferie">Photos de la chaufferie et de la chaudière :</label>
+                    <input type="file" id="photosChaufferie" name="photosChaufferie" accept="image/*">
+
+                </fieldset>
+
+                <button type="button" onclick="showPage(8)">Précédent</button>
+                <button type="button" onclick="showPage(10)">Suivant</button>
+            </div>
+
+            <!-- Page 10: Ventilation / Climatisation, Eau chaude sanitaire, Compteur électrique, et Système d'appoint -->
+            <div class="page" id="page10">
+                <fieldset>
+                    <legend>Ventilation / Climatisation</legend>
+
+                    <label for="systemeVentilation">Système de ventilation de la maison :</label>
+                    <input type="text" id="systemeVentilation" name="systemeVentilation">
+
+                    <label for="systemeClimatisation">Système de climatisation :</label>
+                    <input type="text" id="systemeClimatisation" name="systemeClimatisation">
+
+                </fieldset>
+
+                <fieldset>
+                    <legend>Eau chaude sanitaire (ECS)</legend>
+
+                    <label for="systemeECS">Système de production d'ECS :</label>
+                    <input type="text" id="systemeECS" name="systemeECS">
+
+                    <label for="techniqueProduction">Technique de production :</label>
+                    <input type="text" id="techniqueProduction" name="techniqueProduction">
+
+                    <label for="volumeBallon">Volume du ballon [L] :</label>
+                    <input type="number" id="volumeBallon" name="volumeBallon">
+
+                    <label for="photosBallon">Photo(s) du ballon, de la plaquette technique et des conduites :</label>
+                    <input type="file" id="photosBallon" name="photosBallon" accept="image/*">
+
+                </fieldset>
+
+                <fieldset>
+                    <legend>Compteur électrique</legend>
+
+                    <label for="polariteCompteur">Polarité du compteur électrique :</label>
+                    <input type="text" id="polariteCompteur" name="polariteCompteur">
+
+                    <label for="puissanceSouscrite">Puissance souscrite :</label>
+                    <input type="number" id="puissanceSouscrite" name="puissanceSouscrite">
+
+                </fieldset>
+
+                <fieldset>
+                    <legend>Système d'appoint</legend>
+
+                    <label for="systemeAppoint">Système(s) d'appoint :</label>
+                    <input type="text" id="systemeAppoint" name="systemeAppoint">
+
+                </fieldset>
+
+                <button type="button" onclick="showPage(9)">Précédent</button>
+                <button type="button" onclick="showPage(11)">Suivant</button>
+            </div>
+
+            <!-- Page 11: Façade 1 -->
+            <div class="page" id="page11">
+                <fieldset>
+                    <legend>Façade 1</legend>
+
+                    <label for="orientationFacade1">Orientation :</label>
+                    <input type="text" id="orientationFacade1" name="orientationFacade1">
+
+                    <label for="mitoyenneteFacade1">Mitoyenneté :</label>
+                    <input type="text" id="mitoyenneteFacade1" name="mitoyenneteFacade1">
+
+                    <label for="longueurFacade1">Longueur de la façade [m] :</label>
+                    <input type="number" id="longueurFacade1" name="longueurFacade1">
+
+                    <label for="hauteurFacade1">Hauteur de la façade [m] :</label>
+                    <input type="number" id="hauteurFacade1" name="hauteurFacade1">
+
+                    <label for="surfaceFacade1">Surface de la façade [m²] :</label>
+                    <input type="number" id="surfaceFacade1" name="surfaceFacade1">
+
+                    <label for="nombrePortesFacade1">Nombre de portes extérieures :</label>
+                    <input type="number" id="nombrePortesFacade1" name="nombrePortesFacade1">
+
+                    <label for="compositionPortesFacade1">Composition des / de la porte(s) :</label>
+                    <input type="text" id="compositionPortesFacade1" name="compositionPortesFacade1">
+
+                    <label for="typePortesFacade1">Type des / de la porte(s) :</label>
+                    <input type="text" id="typePortesFacade1" name="typePortesFacade1">
+
+                    <label for="hauteurPortesFacade1">Hauteur des / de la porte(s) [m] :</label>
+                    <input type="number" id="hauteurPortesFacade1" name="hauteurPortesFacade1">
+
+                    <label for="surfacePortesFacade1">Surface des / de la porte [m²] :</label>
+                    <input type="number" id="surfacePortesFacade1" name="surfacePortesFacade1">
+
+                    <label for="surfaceFacadeDeduire">Surface de la façade (portes déduites) [m²] :</label>
+                    <input type="number" id="surfaceFacadeDeduire" name="surfaceFacadeDeduire">
+
+                    <label for="particularitesFacade1">Particularité(s) à signaler :</label>
+                    <textarea id="particularitesFacade1" name="particularitesFacade1"></textarea>
+
+                </fieldset>
+                <button type="button" onclick="showPage(10)">Précédent</button>
+                <button type="button" onclick="showPage(12)">Suivant</button>
+            </div>
+
+            <!-- Page 12: Façade 2 -->
+            <div class="page" id="page12">
+                <fieldset>
+                    <legend>Façade 2</legend>
+
+                    <label for="orientationFacade2">Orientation :</label>
+                    <input type="text" id="orientationFacade2" name="orientationFacade2">
+
+                    <label for="mitoyenneteFacade2">Mitoyenneté :</label>
+                    <input type="text" id="mitoyenneteFacade2" name="mitoyenneteFacade2">
+
+                    <label for="longueurFacade2">Longueur de la façade [m] :</label>
+                    <input type="number" id="longueurFacade2" name="longueurFacade2">
+
+                    <label for="hauteurFacade2">Hauteur de la façade [m] :</label>
+                    <input type="number" id="hauteurFacade2" name="hauteurFacade2">
+
+                    <label for="surfaceFacade2">Surface de la façade [m²] :</label>
+                    <input type="number" id="surfaceFacade2" name="surfaceFacade2">
+
+                    <label for="nombrePortesFacade2">Nombre de portes extérieures :</label>
+                    <input type="number" id="nombrePortesFacade2" name="nombrePortesFacade2">
+
+                    <label for="compositionPortesFacade2">Composition des / de la porte(s) :</label>
+                    <input type="text" id="compositionPortesFacade2" name="compositionPortesFacade2">
+
+                    <label for="typePortesFacade2">Type des / de la porte(s) :</label>
+                    <input type="text" id="typePortesFacade2" name="typePortesFacade2">
+
+                    <label for="hauteurPortesFacade2">Hauteur des / de la porte(s) [m] :</label>
+                    <input type="number" id="hauteurPortesFacade2" name="hauteurPortesFacade2">
+
+                    <label for="surfacePortesFacade2">Surface des / de la porte [m²] :</label>
+                    <input type="number" id="surfacePortesFacade2" name="surfacePortesFacade2">
+
+                    <label for="surfaceFacadeDeduire2">Surface de la façade (portes déduites) [m²] :</label>
+                    <input type="number" id="surfaceFacadeDeduire2" name="surfaceFacadeDeduire2">
+
+                    <label for="particularitesFacade2">Particularité(s) à signaler :</label>
+                    <textarea id="particularitesFacade2" name="particularitesFacade2"></textarea>
+
+                </fieldset>
+                <button type="button" onclick="showPage(11)">Précédent</button>
+                <button type="button" onclick="showPage(13)">Suivant</button>
+            </div>
+
+            <!-- Page 13: Façade 3 -->
+            <div class="page" id="page13">
+                <fieldset>
+                    <legend>Façade 3</legend>
+
+                    <label for="orientationFacade3">Orientation :</label>
+                    <input type="text" id="orientationFacade3" name="orientationFacade3">
+
+                    <label for="mitoyenneteFacade3">Mitoyenneté :</label>
+                    <input type="text" id="mitoyenneteFacade3" name="mitoyenneteFacade3">
+
+                    <label for="longueurFacade3">Longueur de la façade [m] :</label>
+                    <input type="number" id="longueurFacade3" name="longueurFacade3">
+
+                    <label for="hauteurFacade3">Hauteur de la façade [m] :</label>
+                    <input type="number" id="hauteurFacade3" name="hauteurFacade3">
+
+                    <label for="surfaceFacade3">Surface de la façade [m²] :</label>
+                    <input type="number" id="surfaceFacade3" name="surfaceFacade3">
+
+                    <label for="nombrePortesFacade3">Nombre de portes extérieures :</label>
+                    <input type="number" id="nombrePortesFacade3" name="nombrePortesFacade3">
+
+                    <label for="compositionPortesFacade3">Composition des / de la porte(s) :</label>
+                    <input type="text" id="compositionPortesFacade3" name="compositionPortesFacade3">
+
+                    <label for="typePortesFacade3">Type des / de la porte(s) :</label>
+                    <input type="text" id="typePortesFacade3" name="typePortesFacade3">
+
+                    <label for="hauteurPortesFacade3">Hauteur des / de la porte(s) [m] :</label>
+                    <input type="number" id="hauteurPortesFacade3" name="hauteurPortesFacade3">
+
+                    <label for="surfacePortesFacade3">Surface des / de la porte [m²] :</label>
+                    <input type="number" id="surfacePortesFacade3" name="surfacePortesFacade3">
+
+                    <label for="surfaceFacadeDeduire3">Surface de la façade (portes déduites) [m²] :</label>
+                    <input type="number" id="surfaceFacadeDeduire3" name="surfaceFacadeDeduire3">
+
+                    <label for="particularitesFacade3">Particularité(s) à signaler :</label>
+                    <textarea id="particularitesFacade3" name="particularitesFacade3"></textarea>
+
+                </fieldset>
+                <button type="button" onclick="showPage(12)">Précédent</button>
+                <button type="button" onclick="showPage(14)">Suivant</button>
+            </div>
+
+            <!-- Page 14: Façade 4 -->
+            <div class="page" id="page14">
+                <fieldset>
+                    <legend>Façade 4</legend>
+
+                    <label for="orientationFacade4">Orientation :</label>
+                    <input type="text" id="orientationFacade4" name="orientationFacade4">
+
+                    <label for="mitoyenneteFacade4">Mitoyenneté :</label>
+                    <input type="text" id="mitoyenneteFacade4" name="mitoyenneteFacade4">
+
+                    <label for="longueurFacade4">Longueur de la façade [m] :</label>
+                    <input type="number" id="longueurFacade4" name="longueurFacade4">
+
+                    <label for="hauteurFacade4">Hauteur de la façade [m] :</label>
+                    <input type="number" id="hauteurFacade4" name="hauteurFacade4">
+
+                    <label for="surfaceFacade4">Surface de la façade [m²] :</label>
+                    <input type="number" id="surfaceFacade4" name="surfaceFacade4">
+
+                    <label for="nombrePortesFacade4">Nombre de portes extérieures :</label>
+                    <input type="number" id="nombrePortesFacade4" name="nombrePortesFacade4">
+
+                    <label for="compositionPortesFacade4">Composition des / de la porte(s) :</label>
+                    <input type="text" id="compositionPortesFacade4" name="compositionPortesFacade4">
+
+                    <label for="typePortesFacade4">Type des / de la porte(s) :</label>
+                    <input type="text" id="typePortesFacade4" name="typePortesFacade4">
+
+                    <label for="hauteurPortesFacade4">Hauteur des / de la porte(s) [m] :</label>
+                    <input type="number" id="hauteurPortesFacade4" name="hauteurPortesFacade4">
+
+                    <label for="surfacePortesFacade4">Surface des / de la porte [m²] :</label>
+                    <input type="number" id="surfacePortesFacade4" name="surfacePortesFacade4">
+
+                    <label for="surfaceFacadeDeduire4">Surface de la façade (portes déduites) [m²] :</label>
+                    <input type="number" id="surfaceFacadeDeduire4" name="surfaceFacadeDeduire4">
+
+                    <label for="particularitesFacade4">Particularité(s) à signaler :</label>
+                    <textarea id="particularitesFacade4" name="particularitesFacade4"></textarea>
+
+                </fieldset>
+                <button type="button" onclick="showPage(13)">Précédent</button>
+                <button type="button" onclick="showPage(15)">Suivant</button>
+            </div>
+
+            <!-- Page 15: Croquis des Façades -->
+            <div class="page" id="page15">
+                <fieldset>
+                    <legend>Croquis des Façades</legend>
+
+                    <label for="photoCroquisFacade1">Photo Croquis Façade 1 :</label>
+                    <input type="file" id="photoCroquisFacade1" name="photoCroquisFacade1" accept="image/*">
+
+                    <label for="photoCroquisFacade2">Photo Croquis Façade 2 :</label>
+                    <input type="file" id="photoCroquisFacade2" name="photoCroquisFacade2" accept="image/*">
+
+                    <label for="photoCroquisFacade3">Photo Croquis Façade 3 :</label>
+                    <input type="file" id="photoCroquisFacade3" name="photoCroquisFacade3" accept="image/*">
+
+                    <label for="photoCroquisFacade4">Photo Croquis Façade 4 :</label>
+                    <input type="file" id="photoCroquisFacade4" name="photoCroquisFacade4" accept="image/*">
+
+                </fieldset>
+                <button type="button" onclick="showPage(14)">Précédent</button>
+                <button type="button" onclick="exportToPDF()">Exporter en PDF</button>
+            </div>
+
+
+        </form>
+    </div>
+
+    <script>
+        // Fonction pour afficher une page du formulaire
+        function showPage(pageNumber) {
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById(`page${pageNumber}`).classList.add('active');
+        }
+
+        // Fonction pour convertir les fichiers en base64
+        function getBase64(file, callback) {
+            const reader = new FileReader();
+            reader.onloadend = function () {
+                callback(reader.result);
+            }
+            reader.readAsDataURL(file);
+        }
+
+        // Fonction pour exporter le PDF
+        function exportToPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF('p', 'mm', 'a4'); // Portrait, format A4
+
+            const marginLeft = 15;
+            let yOffset = 20;
+
+            // Titre principal
+            doc.setFontSize(18);
+            doc.setFont("helvetica", "bold");
+            doc.text('Fiche Visite Terrain', marginLeft, yOffset);
+            yOffset += 10;
+
+            // Ligne de séparation
+            doc.setLineWidth(0.5);
+            doc.line(marginLeft, yOffset, 200, yOffset);
+            yOffset += 10;
+
+            // Fonction pour ajouter une section encadrée
+            function addSectionTitle(title) {
+                doc.setFontSize(16);
+                doc.setFont("helvetica", "bold");
+                doc.setFillColor(52, 152, 219); // Couleur de fond
+                doc.rect(marginLeft, yOffset, 180, 10, 'F'); // Rectangle avec fond
+                doc.setTextColor(255, 255, 255); // Couleur blanche pour le texte
+                doc.text(title, marginLeft + 5, yOffset + 7); // Ajout du texte
+                yOffset += 15;
+                doc.setTextColor(0, 0, 0); // Réinitialiser la couleur du texte
+            }
+
+            // Fonction pour ajouter un champ avec label et valeur
+            function addField(label, value) {
+                doc.setFontSize(12);
+                doc.setFont("helvetica", "normal");
+                doc.text(`${label}: ${value}`, marginLeft, yOffset);
+                yOffset += 7;
+            }
+
+            const form = document.getElementById('visitForm');
+            const formData = new FormData(form);
+
+            // Section 1 : Informations personnelles
+            addSectionTitle("Informations personnelles");
+            addField("Nom", formData.get("nom") || 'N/A');
+            addField("Prénom", formData.get("prenom") || 'N/A');
+            addField("Date de visite", formData.get("dateVisit") || 'N/A');
+
+            // Section 2 : Synthèse
+            yOffset += 10;
+            addSectionTitle("Synthèse");
+            addField("Système de chauffage principal", formData.get("chauffage") || 'N/A');
+            addField("Système de chauffe d'appoint", formData.get("chauffAppoint") || 'N/A');
+            addField("Surface habitable", formData.get("surfaceHabitable") || 'N/A');
+            addField("Surface du des plancher(s) bas", formData.get("surfacePlancherBas") || 'N/A');
+            addField("Surface totale des combles aménageables [m²]", formData.get("surfaceComblesAménageables") || 'N/A');
+            addField("Surface totale des combles perdus [m²]", formData.get("surfaceComblesPerdus") || 'N/A');
+            addField("Surface des façades extérieurs (fenêtres déduites) [m²]", formData.get("surfaceFacadesExterieurs") || 'N/A');
+            addField("Surface totale des rampants [m²]", formData.get("surfaceRampants") || 'N/A');
+            addField("Surface totale des rampants aménagés [m²]", formData.get("surfaceRampantsAménagés") || 'N/A');
+            addField("Surface totale ITI [m²]", formData.get("surfaceITI") || 'N/A');
+            addField("Revenu fiscal de référence", formData.get("revenuFiscale") || 'N/A');
+            addField("Contact auditeur Prénom", formData.get("contactAuditeurPrenom") || 'N/A');
+            addField("Téléphone 1", formData.get("telephone1") || 'N/A');
+
+            // Fonction pour gérer l'ajout automatique d'une nouvelle page
+            function checkPageOverflow(doc, yOffset, marginBottom = 20) {
+                if (yOffset > (297 - marginBottom)) { // Si yOffset dépasse la limite (297mm - marge de 20mm pour une page A4)
+                    doc.addPage();   // Ajouter une nouvelle page
+                    yOffset = 20;    // Réinitialiser yOffset pour la nouvelle page
+                }
+                return yOffset;
+            }
+
+            // Section 3 : Données générales (Page 3)
+            addSectionTitle("Données générales");
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Géolocalisation", formData.get("geolocalisation") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Date", formData.get("date") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Nom", formData.get("nom") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Prénom", formData.get("prenom") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Adresse", formData.get("adresse") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Code postale", formData.get("codePostale") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Ville", formData.get("ville") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("N° Téléphone", formData.get("telephone") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("E-mail", formData.get("email") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Date de construction", formData.get("dateConstruction") || 'N/A');
+            addField("Photo de la façade principale", formData.get("Photo de la façade principale") || '');
+            // Ajouter l'image de la façade principale (si elle est téléchargée)
+            const facadePhotoFile = document.getElementById('facadePhoto').files[0];
+            if (facadePhotoFile) {
+                getBase64(facadePhotoFile, function (base64) {
+                    yOffset = checkPageOverflow(doc, yOffset);
+                    doc.addImage(base64, 'PNG', marginLeft, yOffset, 50, 50); // Ajouter l'image de la façade principale
+                    yOffset += 55; // Ajouter un espace sous l'image
+
+                    // Ajouter la question "Type de porte d'entrée" après l'image
+                    yOffset = checkPageOverflow(doc, yOffset);
+                    addField("Type de porte d'entrée", formData.get("porteEntree") || 'N/A');
+                    yOffset += 10;
+                });
+            } else {
+                // Ajouter la question "Type de porte d'entrée" si aucune image n'est téléchargée
+                yOffset = checkPageOverflow(doc, yOffset);
+                addField("Type de porte d'entrée", formData.get("porteEntree") || 'N/A');
+            }
+
+
+            // Section 4 : Documents administratifs (Page 4)
+            yOffset = checkPageOverflow(doc, yOffset); // Vérification de l'espace
+            addSectionTitle("Documents administratifs");
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Besoin client", formData.get("besoinClient") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Mode de chauffage à installer de préférence", formData.get("chauffagePref") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Isolation à effectuer de préférence", formData.get("isolationPref") || 'N/A');
+
+            // Ajouter les images avec le nom de la question sous l'image (ex: Facture)
+            const taxeFoncFile = document.getElementById('taxeFonc').files[0];
+            if (taxeFoncFile) {
+                getBase64(taxeFoncFile, function (base64) {
+                    yOffset = checkPageOverflow(doc, yOffset); // Vérification de l'espace
+                    doc.addImage(base64, 'PNG', marginLeft, yOffset, 50, 50); // Ajout de l'image dans le PDF
+                    yOffset += 55; // Espace après l'image
+
+                    // Ajouter le nom de la question sous l'image
+                    yOffset = checkPageOverflow(doc, yOffset);
+                    addField("Taxe foncière ou acte notarié", '');
+                    yOffset += 10;
+                });
+            }
+
+            const pieceIdentiteFile = document.getElementById('pieceIdentite').files[0];
+            if (pieceIdentiteFile) {
+                getBase64(pieceIdentiteFile, function (base64) {
+                    yOffset = checkPageOverflow(doc, yOffset);
+                    doc.addImage(base64, 'PNG', marginLeft, yOffset, 50, 50);
+                    yOffset += 55;
+
+                    // Ajouter le nom de la question sous l'image
+                    yOffset = checkPageOverflow(doc, yOffset);
+                    addField("Pièce d'identité (Recto/Verso)", '');
+                    yOffset += 10;
+                });
+            }
+
+            const facturesFile = document.getElementById('factures').files[0];
+            if (facturesFile) {
+                getBase64(facturesFile, function (base64) {
+                    yOffset = checkPageOverflow(doc, yOffset);
+                    doc.addImage(base64, 'PNG', marginLeft, yOffset, 50, 50);
+                    yOffset += 55;
+
+                    // Ajouter le nom de la question sous l'image
+                    yOffset = checkPageOverflow(doc, yOffset);
+                    addField("Factures (Gaz / Fioul / Électricité)", '');
+                    yOffset += 10;
+                });
+            }
+
+            const planCroquisFile = document.getElementById('planCroquis').files[0];
+            if (planCroquisFile) {
+                getBase64(planCroquisFile, function (base64) {
+                    yOffset = checkPageOverflow(doc, yOffset);
+                    doc.addImage(base64, 'PNG', marginLeft, yOffset, 50, 50);
+                    yOffset += 55;
+
+                    // Ajouter le nom de la question sous l'image
+                    yOffset = checkPageOverflow(doc, yOffset);
+                    addField("Plan / Croquis (Étage par étage)", '');
+                    yOffset += 10;
+                });
+            }
+
+            const pieceJointeFile = document.getElementById('pieceJointe').files[0];
+            if (pieceJointeFile) {
+                getBase64(pieceJointeFile, function (base64) {
+                    yOffset = checkPageOverflow(doc, yOffset);
+                    doc.addImage(base64, 'PNG', marginLeft, yOffset, 50, 50);
+                    yOffset += 55;
+
+                    // Ajouter le nom de la question sous l'image
+                    yOffset = checkPageOverflow(doc, yOffset);
+                    addField("Pièce jointe", '');
+                    yOffset += 10;
+                });
+            }
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Particularité(s) à signaler", formData.get("particularites") || 'N/A');
+
+            // Section 5 : Composition de l'habitation (Murs)
+            yOffset = checkPageOverflow(doc, yOffset); // Vérification de l'espace
+            addSectionTitle("Composition de l'habitation - Murs");
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Type des murs extérieurs", formData.get("typeMurs") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Épaisseur des murs [cm]", formData.get("epaisseurMurs") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Type d'isolation actuelle", formData.get("typeIsolation") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Ancienneté de l'isolation", formData.get("ancienneteIsolation") || 'N/A');
+
+            // Ajouter les images des murs avec le nom de la question sous l'image
+            const photosMursFile = document.getElementById('photosMurs').files[0];
+            if (photosMursFile) {
+                getBase64(photosMursFile, function (base64) {
+                    yOffset = checkPageOverflow(doc, yOffset); // Vérification de l'espace
+                    doc.addImage(base64, 'PNG', marginLeft, yOffset, 50, 50); // Ajout de l'image des murs dans le PDF
+                    yOffset += 55; // Espace après l'image
+
+                    // Ajouter le nom de la question sous l'image
+                    yOffset = checkPageOverflow(doc, yOffset);
+                    addField("Photo(s) des murs", '');
+                    yOffset += 10;
+                });
+            }
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Particularité(s) à signaler", formData.get("particularitesMurs") || 'N/A');
+
+            // Section 6 : Les combles (Page 6)
+            yOffset = checkPageOverflow(doc, yOffset); // Vérification de l'espace
+            addSectionTitle("Les combles");
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Type des combles", formData.get("typeCombles") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Type d'accès aux combles", formData.get("typeAccesCombles") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Longueur des combles perdus [m]", formData.get("longueurComblesPerdus") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Largeur des combles perdus [m]", formData.get("largeurComblesPerdus") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Nombre de rampant", formData.get("nombreRampant") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Longueur du rampant n°1 [m]", formData.get("longueurRampant1") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Longueur du rampant n°2 [m]", formData.get("longueurRampant2") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Largeur du rampant n°1 [m]", formData.get("largeurRampant1") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Largeur du rampant n°2 [m]", formData.get("largeurRampant2") || 'N/A');
+
+            // Ajouter les images des combles avec le nom de la question sous l'image
+            const photosComblesFile = document.getElementById('photosCombles').files[0];
+            if (photosComblesFile) {
+                getBase64(photosComblesFile, function (base64) {
+                    yOffset = checkPageOverflow(doc, yOffset); // Vérification de l'espace
+                    doc.addImage(base64, 'PNG', marginLeft, yOffset, 50, 50); // Ajout de l'image des combles dans le PDF
+                    yOffset += 55; // Espace après l'image
+
+                    // Ajouter le nom de la question sous l'image
+                    yOffset = checkPageOverflow(doc, yOffset);
+                    addField("Photo(s) des combles", '');
+                    yOffset += 10;
+                });
+            }
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Surface du rampant [m²]", formData.get("surfaceRampant") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Surface des combles perdus [m²]", formData.get("surfaceComblesPerdus") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Composition du plafond", formData.get("compositionPlafond") || 'N/A');
+
+            // Ajouter l'image de la preuve d'isolation avec le nom de la question sous l'image
+            const preuveIsolationFile = document.getElementById('preuveIsolation').files[0];
+            if (preuveIsolationFile) {
+                getBase64(preuveIsolationFile, function (base64) {
+                    yOffset = checkPageOverflow(doc, yOffset);
+                    doc.addImage(base64, 'PNG', marginLeft, yOffset, 50, 50); // Ajout de l'image de preuve d'isolation dans le PDF
+                    yOffset += 55; // Espace après l'image
+
+                    // Ajouter le nom de la question sous l'image
+                    yOffset = checkPageOverflow(doc, yOffset);
+                    addField("Preuve d'isolation", '');
+                    yOffset += 10;
+                });
+            }
+
+            // Section 7 : Plancher bas (Page 7)
+            yOffset = checkPageOverflow(doc, yOffset); // Vérification de l'espace
+            addSectionTitle("Plancher bas");
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Type de plancher bas", formData.get("typePlancherBas") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Longueur du plancher bas [m]", formData.get("longueurPlancherBas") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Largeur du plancher bas [m]", formData.get("largeurPlancherBas") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Surface du plancher bas [m²]", formData.get("surfacePlancherBas") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Composition du plancher bas", formData.get("compositionPlancherBas") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Ancienneté d'isolation actuelle", formData.get("ancienneteIsolationPlancher") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Épaisseur de l'isolant [cm]", formData.get("epaisseurIsolation") || 'N/A');
+
+            // Ajouter les images des planchers bas avec le nom de la question sous l'image
+            const photosPlancherBasFile = document.getElementById('photosPlancherBas').files[0];
+            if (photosPlancherBasFile) {
+                getBase64(photosPlancherBasFile, function (base64) {
+                    yOffset = checkPageOverflow(doc, yOffset); // Vérification de l'espace
+                    doc.addImage(base64, 'PNG', marginLeft, yOffset, 50, 50); // Ajout de l'image des planchers bas dans le PDF
+                    yOffset += 55; // Espace après l'image
+
+                    // Ajouter le nom de la question sous l'image
+                    yOffset = checkPageOverflow(doc, yOffset);
+                    addField("Photos du plancher bas", '');
+                    yOffset += 10;
+                });
+            }
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Particularité(s) à signaler", formData.get("particularitesPlancherBas") || 'N/A');
+
+            // Section Garage
+            yOffset = checkPageOverflow(doc, yOffset); // Vérification de l'espace
+            addSectionTitle("Garage");
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Présence d'un garage collé à la maison", formData.get("garagePresence") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Surface du mur [m²]", formData.get("surfaceMurGarage") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Surface totale des murs de garages (dans le cas de plusieurs garages)", formData.get("surfaceTotaleMursGarage") || 'N/A');
+
+            // Section 8 : Architecture (Page 8)
+            yOffset = checkPageOverflow(doc, yOffset); // Vérification de l'espace
+            addSectionTitle("Architecture");
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Description détaillée de la maison", formData.get("descriptionMaison") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("+ 1", formData.get("plusUn") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("État d'occupation", formData.get("etatOccupation") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Type de plancher haut", formData.get("typePlancherHaut") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Type de plancher bas", formData.get("typePlancherBasArch") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Vitrage générale", formData.get("vitrageGeneral") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Huisserie générale", formData.get("huisserieGenerale") || 'N/A');
+
+            // Section 9 : Pathologies observées (Page 9)
+            yOffset = checkPageOverflow(doc, yOffset); // Vérification de l'espace
+            addSectionTitle("Pathologies observées");
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Pathologie", formData.get("pathologie") || 'N/A');
+
+            // Ajouter les images des pathologies avec le nom de la question sous l'image
+            const photosPathologieFile = document.getElementById('photosPathologie').files[0];
+            if (photosPathologieFile) {
+                getBase64(photosPathologieFile, function (base64) {
+                    yOffset = checkPageOverflow(doc, yOffset); // Vérification de l'espace
+                    doc.addImage(base64, 'PNG', marginLeft, yOffset, 50, 50); // Ajout de l'image des pathologies dans le PDF
+                    yOffset += 55; // Espace après l'image
+
+                    // Ajouter le nom de la question sous l'image
+                    yOffset = checkPageOverflow(doc, yOffset);
+                    addField("Photo(s) de la pathologie", '');
+                    yOffset += 10;
+                });
+            }
+
+            // Section Éclairage
+            yOffset = checkPageOverflow(doc, yOffset); // Vérification de l'espace
+            addSectionTitle("Éclairage");
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Type d'éclairage", formData.get("typeEclairage") || 'N/A');
+
+            // Section Système de chauffage
+            yOffset = checkPageOverflow(doc, yOffset); // Vérification de l'espace
+            addSectionTitle("Système de chauffage");
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Emplacement du système de chauffage", formData.get("emplacementChauffage") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Énergie utilisée par le système de chauffage", formData.get("energieChauffage") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Type de générateur de chaleur", formData.get("typeGenerateur") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Année de mise en œuvre", formData.get("anneeMiseOeuvre") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Puissance [kW]", formData.get("puissance") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Émetteur(s) de chaleur", formData.get("emetteursChaleur") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Système(s) de régulation de l'émetteur de chaleur", formData.get("systemeRegulation") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Hauteur de la chaufferie", formData.get("hauteurChaufferie") || 'N/A');
+
+            // Ajouter les images des chaufferies avec le nom de la question sous l'image
+            const photosChaufferieFile = document.getElementById('photosChaufferie').files[0];
+            if (photosChaufferieFile) {
+                getBase64(photosChaufferieFile, function (base64) {
+                    yOffset = checkPageOverflow(doc, yOffset); // Vérification de l'espace
+                    doc.addImage(base64, 'PNG', marginLeft, yOffset, 50, 50); // Ajout de l'image des chaufferies dans le PDF
+                    yOffset += 55; // Espace après l'image
+
+                    // Ajouter le nom de la question sous l'image
+                    yOffset = checkPageOverflow(doc, yOffset);
+                    addField("Photos de la chaufferie et de la chaudière", '');
+                    yOffset += 10;
+                });
+            }
+
+
+            // Section 10 : Ventilation / Climatisation (Page 10)
+            yOffset = checkPageOverflow(doc, yOffset); // Vérification de l'espace
+            addSectionTitle("Ventilation / Climatisation");
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Système de ventilation de la maison", formData.get("systemeVentilation") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Système de climatisation", formData.get("systemeClimatisation") || 'N/A');
+
+            // Section Eau chaude sanitaire (ECS)
+            yOffset = checkPageOverflow(doc, yOffset); // Vérification de l'espace
+            addSectionTitle("Eau chaude sanitaire (ECS)");
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Système de production d'ECS", formData.get("systemeECS") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Technique de production", formData.get("techniqueProduction") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Volume du ballon [L]", formData.get("volumeBallon") || 'N/A');
+
+            // Ajouter les images du ballon avec le nom de la question sous l'image
+            const photosBallonFile = document.getElementById('photosBallon').files[0];
+            if (photosBallonFile) {
+                getBase64(photosBallonFile, function (base64) {
+                    yOffset = checkPageOverflow(doc, yOffset); // Vérification de l'espace
+                    doc.addImage(base64, 'PNG', marginLeft, yOffset, 50, 50); // Ajout de l'image du ballon dans le PDF
+                    yOffset += 55; // Espace après l'image
+
+                    // Ajouter le nom de la question sous l'image
+                    yOffset = checkPageOverflow(doc, yOffset);
+                    addField("Photo(s) du ballon, de la plaquette technique et des conduites", '');
+                    yOffset += 10;
+                });
+            }
+
+            // Section Compteur électrique
+            yOffset = checkPageOverflow(doc, yOffset); // Vérification de l'espace
+            addSectionTitle("Compteur électrique");
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Polarité du compteur électrique", formData.get("polariteCompteur") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Puissance souscrite", formData.get("puissanceSouscrite") || 'N/A');
+
+            // Section Système d'appoint
+            yOffset = checkPageOverflow(doc, yOffset); // Vérification de l'espace
+            addSectionTitle("Système d'appoint");
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Système(s) d'appoint", formData.get("systemeAppoint") || 'N/A');
+
+
+            // Section 11 : Façade 1 (Page 11)
+            yOffset = checkPageOverflow(doc, yOffset); // Vérification de l'espace
+            addSectionTitle("Façade 1");
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Orientation", formData.get("orientationFacade1") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Mitoyenneté", formData.get("mitoyenneteFacade1") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Longueur de la façade [m]", formData.get("longueurFacade1") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Hauteur de la façade [m]", formData.get("hauteurFacade1") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Surface de la façade [m²]", formData.get("surfaceFacade1") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Nombre de portes extérieures", formData.get("nombrePortesFacade1") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Composition des / de la porte(s)", formData.get("compositionPortesFacade1") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Type des / de la porte(s)", formData.get("typePortesFacade1") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Hauteur des / de la porte(s) [m]", formData.get("hauteurPortesFacade1") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Surface des / de la porte [m²]", formData.get("surfacePortesFacade1") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Surface de la façade (portes déduites) [m²]", formData.get("surfaceFacadeDeduire") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Particularité(s) à signaler", formData.get("particularitesFacade1") || 'N/A');
+
+
+
+            // Section 12 : Façade 2 (Page 12)
+            yOffset = checkPageOverflow(doc, yOffset); // Vérification de l'espace
+            addSectionTitle("Façade 2");
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Orientation", formData.get("orientationFacade2") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Mitoyenneté", formData.get("mitoyenneteFacade2") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Longueur de la façade [m]", formData.get("longueurFacade2") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Hauteur de la façade [m]", formData.get("hauteurFacade2") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Surface de la façade [m²]", formData.get("surfaceFacade2") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Nombre de portes extérieures", formData.get("nombrePortesFacade2") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Composition des / de la porte(s)", formData.get("compositionPortesFacade2") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Type des / de la porte(s)", formData.get("typePortesFacade2") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Hauteur des / de la porte(s) [m]", formData.get("hauteurPortesFacade2") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Surface des / de la porte [m²]", formData.get("surfacePortesFacade2") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Surface de la façade (portes déduites) [m²]", formData.get("surfaceFacadeDeduire2") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Particularité(s) à signaler", formData.get("particularitesFacade2") || 'N/A');
+
+
+            // Section 13 : Façade 3 (Page 13)
+            yOffset = checkPageOverflow(doc, yOffset); // Vérification de l'espace
+            addSectionTitle("Façade 3");
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Orientation", formData.get("orientationFacade3") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Mitoyenneté", formData.get("mitoyenneteFacade3") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Longueur de la façade [m]", formData.get("longueurFacade3") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Hauteur de la façade [m]", formData.get("hauteurFacade3") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Surface de la façade [m²]", formData.get("surfaceFacade3") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Nombre de portes extérieures", formData.get("nombrePortesFacade3") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Composition des / de la porte(s)", formData.get("compositionPortesFacade3") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Type des / de la porte(s)", formData.get("typePortesFacade3") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Hauteur des / de la porte(s) [m]", formData.get("hauteurPortesFacade3") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Surface des / de la porte [m²]", formData.get("surfacePortesFacade3") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Surface de la façade (portes déduites) [m²]", formData.get("surfaceFacadeDeduire3") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Particularité(s) à signaler", formData.get("particularitesFacade3") || 'N/A');
+
+
+
+            // Section 14 : Façade 4 (Page 14)
+            yOffset = checkPageOverflow(doc, yOffset); // Vérification de l'espace
+            addSectionTitle("Façade 4");
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Orientation", formData.get("orientationFacade4") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Mitoyenneté", formData.get("mitoyenneteFacade4") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Longueur de la façade [m]", formData.get("longueurFacade4") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Hauteur de la façade [m]", formData.get("hauteurFacade4") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Surface de la façade [m²]", formData.get("surfaceFacade4") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Nombre de portes extérieures", formData.get("nombrePortesFacade4") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Composition des / de la porte(s)", formData.get("compositionPortesFacade4") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Type des / de la porte(s)", formData.get("typePortesFacade4") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Hauteur des / de la porte(s) [m]", formData.get("hauteurPortesFacade4") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Surface des / de la porte [m²]", formData.get("surfacePortesFacade4") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Surface de la façade (portes déduites) [m²]", formData.get("surfaceFacadeDeduire4") || 'N/A');
+
+            yOffset = checkPageOverflow(doc, yOffset);
+            addField("Particularité(s) à signaler", formData.get("particularitesFacade4") || 'N/A');
+
+            // Section 15 : Croquis des Façades (Page 15)
+            yOffset = checkPageOverflow(doc, yOffset); // Vérification de l'espace
+            addSectionTitle("Croquis des Façades");
+
+            // Ajouter les images du croquis de la Façade 1 avec le nom de la question sous l'image
+            const photoCroquisFacade1File = document.getElementById('photoCroquisFacade1').files[0];
+            if (photoCroquisFacade1File) {
+                getBase64(photoCroquisFacade1File, function (base64) {
+                    yOffset = checkPageOverflow(doc, yOffset); // Vérification de l'espace
+                    doc.addImage(base64, 'PNG', marginLeft, yOffset, 50, 50); // Ajout de l'image de Croquis Façade 1 dans le PDF
+                    yOffset += 55; // Espace après l'image
+
+                    // Ajouter le nom de la question sous l'image
+                    yOffset = checkPageOverflow(doc, yOffset);
+                    addField("Photo Croquis Façade 1", '');
+                    yOffset += 10;
+                });
+            }
+
+            // Ajouter les images du croquis de la Façade 2
+            const photoCroquisFacade2File = document.getElementById('photoCroquisFacade2').files[0];
+            if (photoCroquisFacade2File) {
+                getBase64(photoCroquisFacade2File, function (base64) {
+                    yOffset = checkPageOverflow(doc, yOffset);
+                    doc.addImage(base64, 'PNG', marginLeft, yOffset, 50, 50); // Ajout de l'image de Croquis Façade 2
+                    yOffset += 55;
+
+                    yOffset = checkPageOverflow(doc, yOffset);
+                    addField("Photo Croquis Façade 2", '');
+                    yOffset += 10;
+                });
+            }
+
+            // Ajouter les images du croquis de la Façade 3
+            const photoCroquisFacade3File = document.getElementById('photoCroquisFacade3').files[0];
+            if (photoCroquisFacade3File) {
+                getBase64(photoCroquisFacade3File, function (base64) {
+                    yOffset = checkPageOverflow(doc, yOffset);
+                    doc.addImage(base64, 'PNG', marginLeft, yOffset, 50, 50); // Ajout de l'image de Croquis Façade 3
+                    yOffset += 55;
+
+                    yOffset = checkPageOverflow(doc, yOffset);
+                    addField("Photo Croquis Façade 3", '');
+                    yOffset += 10;
+                });
+            }
+
+            // Ajouter les images du croquis de la Façade 4
+            const photoCroquisFacade4File = document.getElementById('photoCroquisFacade4').files[0];
+            if (photoCroquisFacade4File) {
+                getBase64(photoCroquisFacade4File, function (base64) {
+                    yOffset = checkPageOverflow(doc, yOffset);
+                    doc.addImage(base64, 'PNG', marginLeft, yOffset, 50, 50); // Ajout de l'image de Croquis Façade 4
+                    yOffset += 55;
+
+                    yOffset = checkPageOverflow(doc, yOffset);
+                    addField("Photo Croquis Façade 4", '');
+                    yOffset += 10;
+                });
+            }
+
+
+
+
+
+            // Sauvegarde après traitement des images
+            setTimeout(function () {
+                doc.save('fiche_visite_terrain.pdf');
+            }, 1000); // Attendre que les images soient ajoutées avant de sauvegarder
+        }
+    </script>
+
+</body>
+
+</html>

@@ -46,7 +46,7 @@
                     <!-- Numéro de téléphone du client -->
                     <div class="form-group">
                         <label for="telephoneClient">N° Téléphone :</label>
-                        <input type="tel" id="telephoneClient" name="telephoneClient" required
+                        <input type="tel" id="telephoneClient" name="telephoneClient" data-required required
                             placeholder="Entrez un numéro de téléphone valide">
                     </div>
                     <!-- E-mail du client -->
@@ -92,7 +92,7 @@
                     </div>
                     <!-- Numéro de téléphone de l'entreprise -->
                     <div class="form-group">
-                        <label for="telephoneEntreprise">N° Téléphone de l'entreprise :</label>
+                        <label for="telephoneEntreprise">N° Téléphone de l'entreprise ou du technicient:</label>
                         <input type="tel" id="telephoneEntreprise" name="telephoneEntreprise" data-required required
                             placeholder="Numéro de téléphone de l'entreprise">
                     </div>
@@ -120,7 +120,7 @@
                     <!-- Nombre de personnes dans le logement -->
                     <div class="form-group">
                         <label for="nombrePersonnesLogement">Nombre de personnes dans le logement :</label>
-                        <select id="nombrePersonnesLogement" name="nombrePersonnesLogement" required>
+                        <select id="nombrePersonnesLogement" name="nombrePersonnesLogement" data-required required>
                             <option value="">Sélectionnez une option</option>
                             <option value="1">1 personne</option>
                             <option value="2">2 personnes</option>
@@ -131,8 +131,8 @@
                     </div>
                     <!-- Plans de la maison -->
                     <div class="form-group">
-                        <label for="plansMaison">Le Client a-t-il des plans de la maison ? :</label>
-                        <select id="plansMaison" name="plansMaison" required onchange="togglePhotoUpload(this)">
+                        <label for="plansMaison">Le Client a-t-il des plans de la maison ? Sinon dissiner le plan avec une regle :</label>
+                        <select id="plansMaison" name="plansMaison" data-required required onchange="togglePhotoUpload(this)">
                             <option value="">Sélectionnez une option</option>
                             <option value="oui">Oui</option>
                             <option value="non">Non</option>
@@ -147,7 +147,7 @@
                     <!-- Forme du logement -->
                     <div class="form-group">
                         <label for="formeLogement">Forme du logement :</label>
-                        <select id="formeLogement" name="formeLogement" required>
+                        <select id="formeLogement" name="formeLogement" data-required required>
                             <option value="">Sélectionnez une option</option>
                             <option value="rectangulaire">Rectangulaire</option>
                             <option value="carré">Carré</option>
@@ -191,13 +191,13 @@
                     <!-- Hauteur sous plafond -->
                     <div class="form-group">
                         <label for="hauteurPlafond">Hauteur moyenne sous plafond (mètres) :</label>
-                        <input type="number" id="hauteurPlafond" name="hauteurPlafond" step="0.01" required
+                        <input type="number" id="hauteurPlafond" name="hauteurPlafond" step="0.01" data-required required
                             placeholder="Exemple : 2.5">
                     </div>
                     <!-- Mitoyenneté -->
                     <div class="form-group">
                         <label for="mitoyennete">Y'a une mitoyenneté ? :</label>
-                        <select id="mitoyennete" name="mitoyennete" required>
+                        <select id="mitoyennete" name="mitoyennete" data-required required>
                             <option value="">Sélectionnez une option</option>
                             <option value="oui">Oui</option>
                             <option value="non">Non</option>
@@ -226,7 +226,7 @@
                     <!-- Orientation du mur -->
                     <div class="form-group">
                         <label for="orientationMur">Orientation du mur :</label>
-                        <select id="orientationMur" name="orientationMur" required>
+                        <select id="orientationMur" name="orientationMur" data-required required>
                             <option value="">Sélectionnez une orientation</option>
                             <option value="nord">Nord</option>
                             <option value="sud">Sud</option>
@@ -243,7 +243,7 @@
                     <!-- Type de murs -->
                     <div class="form-group">
                         <label for="typeMur">Type de murs :</label>
-                        <select id="typeMur" name="typeMur">
+                        <select id="typeMur" name="typeMur" data-required required>
                             <option value="">Sélectionnez un type</option>
                             <option value="brique">Brique</option>
                             <option value="parpaing">Parpaing</option>
@@ -256,14 +256,14 @@
                     <!-- Photos de loin de la facade -->
                     <div class="form-group">
                         <label for="photosLoin">Photos de loin et de qualité maximum 4! :</label>
-                        <input type="file" id="photosLoin" name="photosLoin[]" accept="image/*" multiple>
+                        <input type="file" id="photosLoin" name="photosLoin[]" accept="image/*" multiple data-required required>
                         <small>Vous pouvez charger jusqu'à 4 photos.</small>
                     </div>
 
                     <!-- Mur mitoyen -->
                     <div class="form-group">
                         <label for="murMitoyen">Mur mitoyen ? :</label>
-                        <select id="murMitoyen" name="murMitoyen" required>
+                        <select id="murMitoyen" name="murMitoyen" data-required required>
                             <option value="">Sélectionnez</option>
                             <option value="oui">Oui</option>
                             <option value="non">Non</option>
@@ -297,27 +297,27 @@
                     <div class="form-group">
                         <label for="longueurMur">Longueur du mur :</label>
                         <input type="number" id="longueurMur" name="longueurMur"
-                            placeholder="Entrez la longueur en mètres" step="0.01">
+                            placeholder="Entrez la longueur en mètres" step="6.5" data-required required>
                     </div>
 
                     <!-- Hauteur sous gouttières -->
                     <div class="form-group">
                         <label for="hauteurSousGouttieres">Hauteur sous gouttières :</label>
                         <input type="number" id="hauteurSousGouttieres" name="hauteurSousGouttieres"
-                            placeholder="Entrez la hauteur en mètres" step="0.01">
+                            placeholder="Entrez la hauteur en mètres" step="7.1" data-required required>
                     </div>
 
                     <!-- Surface totale -->
                     <div class="form-group">
                         <label for="surfaceTotale">Surface en m² total :</label>
                         <input type="number" id="surfaceTotale" name="surfaceTotale"
-                            placeholder="Entrez la surface en m²" step="0.01">
+                            placeholder="Entrez la surface en m²" step="44"data-required required>
                     </div>
 
                     <!-- Mur isolé -->
                     <div class="form-group">
                         <label for="murIsole">Mur isolé ? :</label>
-                        <select id="murIsole" name="murIsole" required>
+                        <select id="murIsole" name="murIsole" data-required required>
                             <option value="">Sélectionnez</option>
                             <option value="oui">Oui</option>
                             <option value="non">Non</option>
@@ -374,7 +374,7 @@
                     <div class="form-group">
                         <label for="nombreFenetreFacade">Nombre de fenêtres de la façade :</label>
                         <select id="nombreFenetreFacade" name="nombreFenetreFacade" onchange="generateWindows()"
-                            required>
+                        data-required required>
                             <option value="">Sélectionnez une option</option>
                             <option value="1">1 Fenêtre</option>
                             <option value="2">2 Fenêtres</option>
@@ -396,7 +396,7 @@
                     <div class="form-group">
                         <label for="photosCroquisFacade">Photos croquis de Façade :</label>
                         <input type="file" id="photosCroquisFacade" name="photosCroquisFacade[]" accept="image/*"
-                            multiple>
+                            multiple data-required required>
                         <small>Vous pouvez charger plusieurs photos.</small>
                     </div>
                 </fieldset>
@@ -414,7 +414,7 @@
         <!-- Type de plancher -->
         <div class="form-group">
             <label for="typePlancher">Type de plancher :</label>
-            <select id="typePlancher" name="typePlancher" required>
+            <select id="typePlancher" name="typePlancher" data-required required>
                 <option value="">Sélectionnez une option</option>
                 <option value="dalleBeton">Dalle de béton</option>
                 <option value="plancherBois">Planchers bois solive</option>
@@ -427,7 +427,7 @@
         <!-- Position du plancher -->
         <div class="form-group">
             <label for="positionPlancher">Position du plancher :</label>
-            <select id="positionPlancher" name="positionPlancher" required>
+            <select id="positionPlancher" name="positionPlancher" data-required required>
                 <option value="">Sélectionnez une option</option>
                 <option value="terrePlein">Sur terre-plein</option>
                 <option value="videSanitaire">Vide sanitaire</option>
@@ -441,25 +441,25 @@
         <!-- Longueur -->
         <div class="form-group">
             <label for="longueurPlancher">Longueur (m) :</label>
-            <input type="number" id="longueurPlancher" name="longueurPlancher" step="0.01" required placeholder="Exemple : 10.5">
+            <input type="number" id="longueurPlancher" name="longueurPlancher" step="0.01" data-required required placeholder="Exemple : 10.5" data-required required>
         </div>
 
         <!-- Largeur -->
         <div class="form-group">
             <label for="largeurPlancher">Largeur (m) :</label>
-            <input type="number" id="largeurPlancher" name="largeurPlancher" step="0.01" required placeholder="Exemple : 8.0">
+            <input type="number" id="largeurPlancher" name="largeurPlancher" step="0.01" data-required required placeholder="Exemple : 8.0" data-required required>
         </div>
 
         <!-- Surface -->
         <div class="form-group">
             <label for="surfacePlancher">Surface (m²) :</label>
-            <input type="number" id="surfacePlancher" name="surfacePlancher" step="0.01" required placeholder="Exemple : 80.0">
+            <input type="number" id="surfacePlancher" name="surfacePlancher" step="0.01" data-required required placeholder="Exemple : 80.0" data-required required>
         </div>
 
         <!-- Plancher est-il isolé -->
         <div class="form-group">
             <label for="plancherIsole">Plancher est-il isolé ? :</label>
-            <select id="plancherIsole" name="plancherIsole" required>
+            <select id="plancherIsole" name="plancherIsole" data-required required>
                 <option value="">Sélectionnez une option</option>
                 <option value="oui">Oui</option>
                 <option value="non">Non</option>
@@ -512,7 +512,7 @@
 
         <div class="form-group">
             <label for="photosPlancherBas">Photos de Plancher Bas :</label>
-            <input type="file" id="photosPlancherBas" name="photosPlancherBas[]" accept="image/*" multiple>
+            <input type="file" id="photosPlancherBas" name="photosPlancherBas[]" accept="image/*" multiple data-required required>
             <small>Vous pouvez charger jusqu'à 4 photos.</small>
         </div>
 
@@ -533,7 +533,7 @@
         <!-- Type de plancher -->
         <div class="form-group">
             <label for="typePlancherCombles">Type de plancher :</label>
-            <select id="typePlancherCombles" name="typePlancherCombles" required>
+            <select id="typePlancherCombles" name="typePlancherCombles" data-required required>
                 <option value="">Sélectionnez une option</option>
                 <option value="bois">Bois</option>
                 <option value="beton">Béton</option>
@@ -544,7 +544,7 @@
         <!-- Position des combles -->
         <div class="form-group">
             <label for="positionCombles">Position des combles :</label>
-            <select id="positionCombles" name="positionCombles" required>
+            <select id="positionCombles" name="positionCombles" data-required required>
                 <option value="">Sélectionnez une option</option>
                 <option value="comblesPerdus">Combles perdus</option>
                 <option value="terrasse">Terrasse</option>
@@ -556,25 +556,25 @@
         <!-- Longueur -->
         <div class="form-group">
             <label for="longueurCombles">Longueur (m) :</label>
-            <input type="number" id="longueurCombles" name="longueurCombles" step="0.01" required placeholder="Exemple : 10.5">
+            <input type="number" id="longueurCombles" name="longueurCombles" step="0.01" data-required required placeholder="Exemple : 10.5">
         </div>
 
         <!-- Largeur -->
         <div class="form-group">
             <label for="largeurCombles">Largeur (m) :</label>
-            <input type="number" id="largeurCombles" name="largeurCombles" step="0.01" required placeholder="Exemple : 8.0">
+            <input type="number" id="largeurCombles" name="largeurCombles" step="0.01" data-required required placeholder="Exemple : 8.0">
         </div>
 
         <!-- Surface -->
         <div class="form-group">
             <label for="surfaceCombles">Surface (m²) :</label>
-            <input type="number" id="surfaceCombles" name="surfaceCombles" step="0.01" required placeholder="Exemple : 80.0">
+            <input type="number" id="surfaceCombles" name="surfaceCombles" step="0.01" data-required required placeholder="Exemple : 80.0">
         </div>
 
         <!-- Plancher est-il isolé -->
         <div class="form-group">
             <label for="plancherIsoleCombles">Plancher est-il isolé ? :</label>
-            <select id="plancherIsoleCombles" name="plancherIsoleCombles" required>
+            <select id="plancherIsoleCombles" name="plancherIsoleCombles" data-required required>
                 <option value="">Sélectionnez une option</option>
                 <option value="oui">Oui</option>
                 <option value="non">Non</option>
@@ -623,7 +623,7 @@
         <!-- Photos des combles -->
         <div class="form-group">
             <label for="photosCombles">Photos des combles :</label>
-            <input type="file" id="photosCombles" name="photosCombles[]" accept="image/*" multiple>
+            <input type="file" id="photosCombles" name="photosCombles[]" accept="image/*" multiple data-required required>
             <small>Vous pouvez charger jusqu'à 4 photos.</small>
         </div>
         <!-- Commentaire -->
@@ -650,7 +650,7 @@
         <!-- Type de chauffage -->
         <div class="form-group">
             <label for="typeChauffage">Type de chauffage :</label>
-            <select id="typeChauffage" name="typeChauffage" required>
+            <select id="typeChauffage" name="typeChauffage" data-required required>
                 <option value="">Sélectionnez une option</option>
                 <option value="chaudiereGaz">Chaudière gaz</option>
                 <option value="chaudiereFioul">Chaudière fioul</option>
@@ -665,7 +665,7 @@
         <!-- Type d'émetteur -->
         <div class="form-group">
             <label for="typeEmetteur">Type d'émetteur :</label>
-            <select id="typeEmetteur" name="typeEmetteur" required>
+            <select id="typeEmetteur" name="typeEmetteur" data-required required>
                 <option value="">Sélectionnez une option</option>
                 <option value="radiateurs">Radiateurs</option>
                 <option value="plancherChauffant">Plancher chauffant</option>
@@ -677,7 +677,7 @@
         <!-- Type de régulation -->
         <div class="form-group">
             <label for="typeRegulation">Type de régulation :</label>
-            <select id="typeRegulation" name="typeRegulation" required>
+            <select id="typeRegulation" name="typeRegulation" data-required required>
                 <option value="">Sélectionnez une option</option>
                 <option value="thermostatManuel">Thermostat manuel</option>
                 <option value="thermostatProgrammable">Thermostat programmable</option>
@@ -689,7 +689,7 @@
         <!-- Année -->
         <div class="form-group">
             <label for="anneeChauffage">Année d'installation :</label>
-            <select id="anneeChauffage" name="anneeChauffage" required>
+            <select id="anneeChauffage" name="anneeChauffage" >
                 <option value="">Sélectionnez une option</option>
                 <option value="avant1948">Avant 1948</option>
                 <option value="1948-1974">Entre 1948 et 1974</option>
@@ -707,7 +707,7 @@
         <!-- Photos -->
         <div class="form-group">
             <label for="photosChauffage">Photos du chauffage :</label>
-            <input type="file" id="photosChauffage" name="photosChauffage[]" accept="image/*" multiple>
+            <input type="file" id="photosChauffage" name="photosChauffage[]" accept="image/*" multiple data-required required>
             <small>Vous pouvez charger jusqu'à 4 photos.</small>
         </div>
 
@@ -734,7 +734,7 @@
         <!-- Production système ECS -->
         <div class="form-group">
             <label for="productionECS">Production système ECS :</label>
-            <select id="productionECS" name="productionECS" required>
+            <select id="productionECS" name="productionECS" data-required required>
                 <option value="">Sélectionnez une option</option>
                 <option value="chauffeEauElectrique">Chauffe-eau électrique</option>
                 <option value="chauffeEauGaz">Chauffe-eau gaz</option>
@@ -748,7 +748,7 @@
         <!-- ECS lié au chauffage -->
         <div class="form-group">
             <label for="ecsLieChauffage">ECS lié au chauffage ? :</label>
-            <select id="ecsLieChauffage" name="ecsLieChauffage" required>
+            <select id="ecsLieChauffage" name="ecsLieChauffage" data-required required>
                 <option value="">Sélectionnez une option</option>
                 <option value="oui">Oui</option>
                 <option value="non">Non</option>
@@ -758,13 +758,13 @@
         <!-- Capacité -->
         <div class="form-group">
             <label for="capaciteECS">Capacité (litres) :</label>
-            <input type="number" id="capaciteECS" name="capaciteECS" step="1" placeholder="Exemple : 200" required>
+            <input type="number" id="capaciteECS" name="capaciteECS" step="1" placeholder="Exemple : 200" data-required required>
         </div>
 
         <!-- Année -->
         <div class="form-group">
             <label for="anneeECS">Année d'installation :</label>
-            <select id="anneeECS" name="anneeECS" required>
+            <select id="anneeECS" name="anneeECS" >
                 <option value="">Sélectionnez une option</option>
                 <option value="avant1948">Avant 1948</option>
                 <option value="1948-1974">Entre 1948 et 1974</option>
@@ -782,7 +782,7 @@
         <!-- Photos -->
         <div class="form-group">
             <label for="photosECS">Photos du système ECS :</label>
-            <input type="file" id="photosECS" name="photosECS[]" accept="image/*" multiple>
+            <input type="file" id="photosECS" name="photosECS[]" accept="image/*" multiple data-required required>
             <small>Vous pouvez charger jusqu'à 4 photos.</small>
         </div>
 
@@ -808,7 +808,7 @@
         <!-- Système de ventilation -->
         <div class="form-group">
             <label for="systemeVentilation">Système de ventilation :</label>
-            <select id="systemeVentilation" name="systemeVentilation" required>
+            <select id="systemeVentilation" name="systemeVentilation" data-required required>
                 <option value="">Sélectionnez une option</option>
                 <option value="ouvertureFenetres">Ouverture des fenêtres</option>
                 <option value="vmcSimpleFlux">VMC simple flux</option>
@@ -821,7 +821,7 @@
         <!-- Année -->
         <div class="form-group">
             <label for="anneeVentilation">Année d'installation :</label>
-            <select id="anneeVentilation" name="anneeVentilation" required>
+            <select id="anneeVentilation" name="anneeVentilation" data-required required>
                 <option value="">Sélectionnez une option</option>
                 <option value="avant1948">Avant 1948</option>
                 <option value="1948-1974">Entre 1948 et 1974</option>
@@ -839,7 +839,7 @@
         <!-- Système de refroidissement -->
         <div class="form-group">
             <label for="systemeRefroidissement">Système de refroidissement :</label>
-            <select id="systemeRefroidissement" name="systemeRefroidissement" required>
+            <select id="systemeRefroidissement" name="systemeRefroidissement" data-required required>
                 <option value="">Sélectionnez une option</option>
                 <option value="aucun">Aucun</option>
                 <option value="climatisationFixe">Climatisation fixe</option>
@@ -852,7 +852,7 @@
         <!-- Photos -->
         <div class="form-group">
             <label for="photosVentilation">Photos de la ventilation :</label>
-            <input type="file" id="photosVentilation" name="photosVentilation[]" accept="image/*" multiple>
+            <input type="file" id="photosVentilation" name="photosVentilation[]" accept="image/*" multiple data-required required>
             <small>Vous pouvez charger jusqu'à 4 photos.</small>
         </div>
 

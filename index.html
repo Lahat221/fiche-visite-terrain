@@ -10,7 +10,7 @@
     <!-- Inclusion de la bibliothèque jsPDF pour la génération des PDF -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <!-- Inclusion du fichier JavaScript personnalisé -->
-    <script src="abdou.js" defer></script>
+    <script src="sec.js" defer></script>
 </head>
 
 <body>
@@ -96,11 +96,12 @@
                         <input type="tel" id="telephoneEntreprise" name="telephoneEntreprise" data-required required
                             placeholder="Numéro de téléphone de l'entreprise">
                     </div>
-                </fieldset>
-                <!-- Boutons de navigation -->
-                <div class="form-actions">
-                    <button type="button">Suivant</button>
-                </div>
+                    <!-- Boutons de navigation -->
+                    <div class="form-actions">
+                        <button type="button">Suivant</button>
+                        <button id="finishButton" type="button">Terminer</button>
+                        <button id="exportButton" type="button">Exporter en PDF</button>
+                    </div>
             </div>
 
             <!-- Page 2 : Informations Client -->
@@ -131,8 +132,10 @@
                     </div>
                     <!-- Plans de la maison -->
                     <div class="form-group">
-                        <label for="plansMaison">Le Client a-t-il des plans de la maison ? Sinon dissiner le plan avec une regle :</label>
-                        <select id="plansMaison" name="plansMaison" data-required required onchange="togglePhotoUpload(this)">
+                        <label for="plansMaison">Le Client a-t-il des plans de la maison ? Sinon dissiner le plan avec
+                            une regle :</label>
+                        <select id="plansMaison" name="plansMaison" data-required required
+                            onchange="togglePhotoUpload(this)">
                             <option value="">Sélectionnez une option</option>
                             <option value="oui">Oui</option>
                             <option value="non">Non</option>
@@ -140,8 +143,10 @@
                     </div>
                     <!-- Section pour télécharger des photos -->
                     <div id="photoUploadSection" style="display: none;">
-                        <label for="photoPlans">Téléchargez jusqu'à 4 photos des plans :</label>
-                        <input type="file" id="photoPlans" name="photoPlans[]" accept="image/*" multiple>
+                        <label for="photoPlans">Téléchargez jusqu'à 4 photos des plans Dessinné a l'aide d'une regle
+                            :</label>
+                        <input type="file" id="photoPlans" name="photoPlans[]" accept="image/*" multiple data-required
+                            required>
                         <small>Vous pouvez charger jusqu'à 4 photos.</small>
                     </div>
                     <!-- Forme du logement -->
@@ -191,304 +196,1380 @@
                     <!-- Hauteur sous plafond -->
                     <div class="form-group">
                         <label for="hauteurPlafond">Hauteur moyenne sous plafond (mètres) :</label>
-                        <input type="number" id="hauteurPlafond" name="hauteurPlafond" step="0.01" data-required required
-                            placeholder="Exemple : 2.5">
+                        <input type="number" id="hauteurPlafond" name="hauteurPlafond" step="0.01" data-required
+                            required placeholder="Exemple : 2.5">
                     </div>
                     <!-- Mitoyenneté -->
-                    <div class="form-group">
+                    <<!-- div class="form-group">
                         <label for="mitoyennete">Y'a une mitoyenneté ? :</label>
                         <select id="mitoyennete" name="mitoyennete" data-required required>
                             <option value="">Sélectionnez une option</option>
                             <option value="oui">Oui</option>
                             <option value="non">Non</option>
                         </select>
-                    </div>
-                    <!-- Pathologies observées -->
-                    <div class="form-group">
-                        <label for="pathologies">Pathologies observées :</label>
-                        <textarea id="pathologies" name="pathologies" rows="4" required
-                            placeholder="Décrivez les pathologies observées"></textarea>
-                    </div>
-                </fieldset>
-                <!-- Boutons de navigation -->
-                <div class="form-actions">
-                    <button type="button">Précédent</button>
-                    <button type="button">Suivant</button>
-                    <!-- <button id="finishButton" type="button">Terminer</button> -->
-                    <!-- <button id="exportButton" type="button">Exporter en PDF</button> -->
-                </div>
-            </div>
-            <!-- Page 4 : Informations sur les Facades -->
-            <div class="page" id="page4">
-                <fieldset>
-                    <legend>Façades</legend>
-
-                    <!-- Orientation du mur -->
-                    <div class="form-group">
-                        <label for="orientationMur">Orientation du mur :</label>
-                        <select id="orientationMur" name="orientationMur" data-required required>
-                            <option value="">Sélectionnez une orientation</option>
-                            <option value="nord">Nord</option>
-                            <option value="sud">Sud</option>
-                            <option value="est">Est</option>
-                            <option value="ouest">Ouest</option>
-                            <option value="nord-est">Nord-Est</option>
-                            <option value="nord-ouest">Nord-Ouest</option>
-                            <option value="sud-est">Sud-Est</option>
-                            <option value="sud-ouest">Sud-Ouest</option>
-                        </select>
-                    </div>
-
-
-                    <!-- Type de murs -->
-                    <div class="form-group">
-                        <label for="typeMur">Type de murs :</label>
-                        <select id="typeMur" name="typeMur" data-required required>
-                            <option value="">Sélectionnez un type</option>
-                            <option value="brique">Brique</option>
-                            <option value="parpaing">Parpaing</option>
-                            <option value="béton">Béton</option>
-                            <option value="bois">Bois</option>
-                            <option value="autre">Autre</option>
-                        </select>
-                    </div>
-
-                    <!-- Photos de loin de la facade -->
-                    <div class="form-group">
-                        <label for="photosLoin">Photos de loin et de qualité maximum 4! :</label>
-                        <input type="file" id="photosLoin" name="photosLoin[]" accept="image/*" multiple data-required required>
-                        <small>Vous pouvez charger jusqu'à 4 photos.</small>
-                    </div>
-
-                    <!-- Mur mitoyen -->
-                    <div class="form-group">
-                        <label for="murMitoyen">Mur mitoyen ? :</label>
-                        <select id="murMitoyen" name="murMitoyen" data-required required>
-                            <option value="">Sélectionnez</option>
-                            <option value="oui">Oui</option>
-                            <option value="non">Non</option>
-                        </select>
-                    </div>
-
-                    <div id="mitoyenneteContainer">
-                        <fieldset>
-                            <legend>Détails de la mitoyenneté</legend>
-                            <div class="form-group">
-                                <label for="detailsMitoyennete">Précisez la mitoyenneté :</label>
-                                <textarea id="detailsMitoyennete1" name="detailsMitoyennete1" rows="2"
-                                    placeholder="Entrez les détails de la mitoyenneté"></textarea>
-                            </div>
-                        </fieldset>
-                    </div>
-
-
-                    <div class="form-group" id="mitoyenneteDetails" style="display: none;">
-                        <label for="detailsMitoyennete2">Précisez la mitoyenneté :</label>
-                        <textarea id="detailsMitoyennete" name="detailsMitoyennete2" rows="3"
-                            placeholder="Entrez les détails de la mitoyenneté"></textarea>
-                    </div>
-
-                    <div class="form-group" id="mitoyenneteDetails" style="display: none;">
-                        <label for="detailsMitoyennete">Précisez la mitoyenneté :</label>
-                        <textarea id="detailsMitoyennete" name="detailsMitoyennete" rows="3"></textarea>
-                    </div>
-
-                    <!-- Longueur du mur -->
-                    <div class="form-group">
-                        <label for="longueurMur">Longueur du mur :</label>
-                        <input type="number" id="longueurMur" name="longueurMur"
-                            placeholder="Entrez la longueur en mètres" step="6.5" data-required required>
-                    </div>
-
-                    <!-- Hauteur sous gouttières -->
-                    <div class="form-group">
-                        <label for="hauteurSousGouttieres">Hauteur sous gouttières :</label>
-                        <input type="number" id="hauteurSousGouttieres" name="hauteurSousGouttieres"
-                            placeholder="Entrez la hauteur en mètres" step="7.1" data-required required>
-                    </div>
-
-                    <!-- Surface totale -->
-                    <div class="form-group">
-                        <label for="surfaceTotale">Surface en m² total :</label>
-                        <input type="number" id="surfaceTotale" name="surfaceTotale"
-                            placeholder="Entrez la surface en m²" step="44"data-required required>
-                    </div>
-
-                    <!-- Mur isolé -->
-                    <div class="form-group">
-                        <label for="murIsole">Mur isolé ? :</label>
-                        <select id="murIsole" name="murIsole" data-required required>
-                            <option value="">Sélectionnez</option>
-                            <option value="oui">Oui</option>
-                            <option value="non">Non</option>
-                        </select>
-                    </div>
-
-                    <!-- Détails de l'isolation : Toujours affichés -->
-                    <div id="isolantContainer">
-                        <fieldset>
-                            <legend>Détails de l'isolation</legend>
-
-                            <!-- Type d'isolant -->
-                            <div class="form-group">
-                                <label for="typeIsolant">Type d'isolant :</label>
-                                <select id="typeIsolant" name="typeIsolant">
-                                    <option value="">Sélectionnez un type d'isolant</option>
-                                    <option value="laineDeVerre">Laine de verre</option>
-                                    <option value="laineDeRoche">Laine de roche</option>
-                                    <option value="polystyrene">Polystyrène</option>
-                                    <option value="polyurethane">Polyuréthane</option>
-                                    <option value="ouateDeCellulose">Ouate de cellulose</option>
-                                    <option value="autre">Autre</option>
-                                </select>
-                            </div>
-
-                            <!-- Épaisseur de l'isolant -->
-                            <div class="form-group">
-                                <label for="epaisseurIsolant">Épaisseur de l'isolant (mm) :</label>
-                                <input type="number" id="epaisseurIsolant" name="epaisseurIsolant" step="1"
-                                    placeholder="Entrez l'épaisseur en millimètres">
-                            </div>
-
-                            <!-- Année de l'isolation -->
-                            <div class="form-group">
-                                <label for="dateIsolation">Année de l'isolation :</label>
-                                <select id="dateIsolation" name="dateIsolation">
-                                    <option value="">Sélectionnez une option</option>
-                                    <option value="avant1948">Avant 1948</option>
-                                    <option value="1948-1974">Entre 1948 et 1974</option>
-                                    <option value="1975-1977">Entre 1975 et 1977</option>
-                                    <option value="1978-1982">Entre 1978 et 1982</option>
-                                    <option value="1983-1988">Entre 1983 et 1988</option>
-                                    <option value="1989-2000">Entre 1989 et 2000</option>
-                                    <option value="2001-2005">Entre 2001 et 2005</option>
-                                    <option value="2006-2012">Entre 2006 et 2012</option>
-                                    <option value="2013-2021">Entre 2013 et 2021</option>
-                                    <option value="apres2021">Après 2021</option>
-                                </select>
-                            </div>
-                        </fieldset>
-                    </div>
-
-                    <!-- Nombre de fenêtres de la façade -->
-                    <div class="form-group">
-                        <label for="nombreFenetreFacade">Nombre de fenêtres de la façade :</label>
-                        <select id="nombreFenetreFacade" name="nombreFenetreFacade" onchange="generateWindows()"
-                        data-required required>
-                            <option value="">Sélectionnez une option</option>
-                            <option value="1">1 Fenêtre</option>
-                            <option value="2">2 Fenêtres</option>
-                            <option value="3">3 Fenêtres</option>
-                            <option value="4">4 Fenêtres</option>
-                            <option value="5">5 Fenêtres</option>
-                            <option value="6">6 Fenêtres</option>
-                            <option value="7">7 Fenêtres</option>
-                            <option value="8">8 Fenêtres</option>
-                            <option value="9">9 Fenêtres</option>
-                            <option value="10">10 Fenêtres</option>
-                        </select>
-                    </div>
-
-                    <!-- Conteneur pour les fenêtres -->
-                    <div id="windowsContainer"></div>
-
-                    <!-- Photos croquis de façade -->
-                    <div class="form-group">
-                        <label for="photosCroquisFacade">Photos croquis de Façade :</label>
-                        <input type="file" id="photosCroquisFacade" name="photosCroquisFacade[]" accept="image/*"
-                            multiple data-required required>
-                        <small>Vous pouvez charger plusieurs photos.</small>
-                    </div>
-                </fieldset>
-                <!-- Boutons de navigation -->
-                <div class="form-actions">
-                    <button type="button">Précédent</button>
-                    <button type="button">Suivant</button>
-                </div>
-            </div>
-            
-            <!-- Page 5 : Informations Plancher Bas -->
-<div class="page" id="page5">
-    <fieldset>
-        <legend>Informations Plancher Bas</legend>
-        <!-- Type de plancher -->
-        <div class="form-group">
-            <label for="typePlancher">Type de plancher :</label>
-            <select id="typePlancher" name="typePlancher" data-required required>
-                <option value="">Sélectionnez une option</option>
-                <option value="dalleBeton">Dalle de béton</option>
-                <option value="plancherBois">Planchers bois solive</option>
-                <option value="plancherMetal">Planchers métalliques</option>
-                <option value="plancherHourdis">Planchers hourdis</option>
-                <option value="plancherAutre">Autre</option>
-            </select>
-        </div>
-
-        <!-- Position du plancher -->
-        <div class="form-group">
-            <label for="positionPlancher">Position du plancher :</label>
-            <select id="positionPlancher" name="positionPlancher" data-required required>
-                <option value="">Sélectionnez une option</option>
-                <option value="terrePlein">Sur terre-plein</option>
-                <option value="videSanitaire">Vide sanitaire</option>
-                <option value="sousSol">Sous-sol</option>
-                <option value="etage">Étage</option>
-                <option value="combles">Cave</option>
-                <option value="autre">Autre</option>
-            </select>
-        </div>
-
-        <!-- Longueur -->
-        <div class="form-group">
-            <label for="longueurPlancher">Longueur (m) :</label>
-            <input type="number" id="longueurPlancher" name="longueurPlancher" step="0.01" data-required required placeholder="Exemple : 10.5" data-required required>
-        </div>
-
-        <!-- Largeur -->
-        <div class="form-group">
-            <label for="largeurPlancher">Largeur (m) :</label>
-            <input type="number" id="largeurPlancher" name="largeurPlancher" step="0.01" data-required required placeholder="Exemple : 8.0" data-required required>
-        </div>
-
-        <!-- Surface -->
-        <div class="form-group">
-            <label for="surfacePlancher">Surface (m²) :</label>
-            <input type="number" id="surfacePlancher" name="surfacePlancher" step="0.01" data-required required placeholder="Exemple : 80.0" data-required required>
-        </div>
-
-        <!-- Plancher est-il isolé -->
-        <div class="form-group">
-            <label for="plancherIsole">Plancher est-il isolé ? :</label>
-            <select id="plancherIsole" name="plancherIsole" data-required required>
-                <option value="">Sélectionnez une option</option>
-                <option value="oui">Oui</option>
-                <option value="non">Non</option>
-            </select>
-        </div>
-
-        <!-- Détails de l'isolation -->
-        <div>
+            </div> -->
+            <!-- Pathologies observées -->
             <div class="form-group">
-                <label for="typeIsolantPlancher">Type d'isolant :</label>
-                <select id="typeIsolantPlancher" name="typeIsolantPlancher">
-                    <option value="">Sélectionnez une option</option>
-                    <option value="laineDeVerre">Laine de verre</option>
-                    <option value="laineDeRoche">Laine de roche</option>
-                    <option value="polystyrene">Polystyrène</option>
-                    <option value="polyurethane">Polyuréthane</option>
-                    <option value="ouateDeCellulose">Ouate de cellulose</option>
+                <label for="pathologies">Pathologies observées :</label>
+                <textarea id="pathologies" name="pathologies" rows="4" required
+                    placeholder="Décrivez les pathologies observées"></textarea>
+            </div>
+            </fieldset>
+            <!-- Boutons de navigation -->
+            <div class="form-actions">
+                <button type="button">Précédent</button>
+                <button type="button">Suivant</button>
+                <!-- <button id="finishButton" type="button">Terminer</button> -->
+                <!-- <button id="exportButton" type="button">Exporter en PDF</button> -->
+            </div>
+    </div>
+    <!-- Page 4 : Informations sur les Facades -->
+    <!-- Page 4 : Façade Nord -->
+    <div class="page" id="page4-nord">
+        <fieldset>
+            <legend>Façade Nord</legend>
+
+            <!-- Orientation du mur -->
+            <div class="form-group">
+                <label for="orientationMurNord">Orientation du mur :</label>
+                <select id="orientationMurNord" name="orientationMurNord" data-required required>
+                    <option value="">Sélectionnez une orientation</option>
+                    <option value="nord">Nord</option>
+                    <option value="nord-est">Nord-Est</option>
+                    <option value="nord-ouest">Nord-Ouest</option>
+                </select>
+            </div>
+
+            <!-- Type de murs -->
+            <div class="form-group">
+                <label for="typeMurNord">Type de murs :</label>
+                <select id="typeMurNord" name="typeMurNord" data-required required>
+                    <option value="">Sélectionnez un type</option>
+                    <option value="brique">Brique</option>
+                    <option value="parpaing">Parpaing</option>
+                    <option value="béton">Béton</option>
+                    <option value="bois">Bois</option>
                     <option value="autre">Autre</option>
                 </select>
             </div>
 
+            <!-- Photos de loin de la façade -->
             <div class="form-group">
-                <label for="epaisseurIsolantPlancher">Épaisseur de l'isolant (mm) :</label>
-                <input type="number" id="epaisseurIsolantPlancher" name="epaisseurIsolantPlancher" step="1" placeholder="Exemple : 150">
+                <label for="photosLoinNord">Photos de loin (max 4) :</label>
+                <input type="file" id="photosLoinNord" name="photosLoinNord[]" accept="image/*" multiple data-required
+                    required>
+                <small>Vous pouvez charger jusqu'à 4 photos.</small>
+            </div>
+
+            <!-- Mur mitoyen -->
+            <div class="form-group">
+                <label for="murMitoyenNord">Mur mitoyen ? :</label>
+                <select id="murMitoyenNord" name="murMitoyenNord" data-required required>
+                    <option value="">Sélectionnez</option>
+                    <option value="oui">Oui</option>
+                    <option value="non">Non</option>
+                </select>
+            </div>
+
+            <!-- Détails de la mitoyenneté -->
+            <div class="form-group">
+                <label for="detailsMitoyenneteNord">Détails de la mitoyenneté :</label>
+                <textarea id="detailsMitoyenneteNord" name="detailsMitoyenneteNord" rows="3"
+                    placeholder="Précisez les détails de la mitoyenneté"></textarea>
+            </div>
+
+            <!-- Longueur du mur -->
+            <div class="form-group">
+                <label for="longueurMurNord">Longueur du mur :</label>
+                <input type="number" id="longueurMurNord" name="longueurMurNord"
+                    placeholder="Entrez la longueur en mètres" step="0.1" data-required required>
+            </div>
+
+            <!-- Hauteur sous gouttières -->
+            <div class="form-group">
+                <label for="hauteurSousGouttieresNord">Hauteur sous gouttières :</label>
+                <input type="number" id="hauteurSousGouttieresNord" name="hauteurSousGouttieresNord"
+                    placeholder="Entrez la hauteur en mètres" step="0.1" data-required required>
+            </div>
+
+            <!-- Surface totale -->
+            <div class="form-group">
+                <label for="surfaceTotaleNord">Surface totale en m² :</label>
+                <input type="number" id="surfaceTotaleNord" name="surfaceTotaleNord"
+                    placeholder="Entrez la surface en m²" step="0.1" data-required required>
+            </div>
+
+            <!-- Isolation -->
+            <fieldset>
+                <legend>Détails de l'isolation</legend>
+
+                <!-- Mur isolé -->
+                <div class="form-group">
+                    <label for="murIsoleNord">Mur isolé ? :</label>
+                    <select id="murIsoleNord" name="murIsoleNord" data-required required>
+                        <option value="">Sélectionnez</option>
+                        <option value="oui">Oui</option>
+                        <option value="non">Non</option>
+                    </select>
+                </div>
+
+                <!-- Type d'isolant -->
+                <div class="form-group">
+                    <label for="typeIsolantNord">Type d'isolant :</label>
+                    <select id="typeIsolantNord" name="typeIsolantNord" data-required required>
+                        <option value="">Sélectionnez un type d'isolant</option>
+                        <option value="laineDeVerre">Laine de verre</option>
+                        <option value="laineDeRoche">Laine de roche</option>
+                        <option value="polystyrene">Polystyrène</option>
+                        <option value="polyurethane">Polyuréthane</option>
+                        <option value="ouateDeCellulose">Ouate de cellulose</option>
+                        <option value="autre">Autre</option>
+                    </select>
+                </div>
+
+                <!-- Épaisseur de l'isolant -->
+                <div class="form-group">
+                    <label for="epaisseurIsolantNord">Épaisseur de l'isolant (mm) :</label>
+                    <input type="number" id="epaisseurIsolantNord" name="epaisseurIsolantNord"
+                        placeholder="Entrez l'épaisseur en millimètres" step="1" data-required required>
+                </div>
+
+                <!-- Année de l'isolation -->
+                <div class="form-group">
+                    <label for="dateIsolationNord">Année de l'isolation :</label>
+                    <select id="dateIsolationNord" name="dateIsolationNord" data-required required>
+                        <option value="">Sélectionnez une option</option>
+                        <option value="avant1948">Avant 1948</option>
+                        <option value="1948-1974">Entre 1948 et 1974</option>
+                        <option value="1975-1977">Entre 1975 et 1977</option>
+                        <option value="1978-1982">Entre 1978 et 1982</option>
+                        <option value="1983-1988">Entre 1983 et 1988</option>
+                        <option value="1989-2000">Entre 1989 et 2000</option>
+                        <option value="2001-2005">Entre 2001 et 2005</option>
+                        <option value="2006-2012">Entre 2006 et 2012</option>
+                        <option value="2013-2021">Entre 2013 et 2021</option>
+                        <option value="apres2021">Après 2021</option>
+                    </select>
+                </div>
+            </fieldset>
+
+            <!-- Fenêtres -->
+            <div class="form-group">
+                <label for="nombreFenetreFacadeNord">Nombre de fenêtres :</label>
+                <select id="nombreFenetreFacadeNord" name="nombreFenetreFacadeNord" onchange="generateWindowsNord()"
+                    data-required required>
+                    <option value="">Sélectionnez une option</option>
+                    <option value="1">1 Fenêtre</option>
+                    <option value="2">2 Fenêtres</option>
+                    <option value="3">3 Fenêtres</option>
+                    <option value="4">4 Fenêtres</option>
+                    <option value="5">5 Fenêtres</option>
+                    <option value="6">6 Fenêtres</option>
+                    <option value="7">7 Fenêtres</option>
+                    <option value="8">8 Fenêtres</option>
+                    <option value="9">9 Fenêtres</option>
+                    <option value="10">10 Fenêtres</option>
+                </select>
+            </div>
+            <div id="windowsContainerNord"></div>
+
+            <!-- Photos croquis de façade -->
+            <div class="form-group">
+                <label for="photosCroquisFacadeNord">Photos croquis de Façade :</label>
+                <input type="file" id="photosCroquisFacadeNord" name="photosCroquisFacadeNord[]" accept="image/*"
+                    multiple data-required required>
+                <small>Vous pouvez charger plusieurs photos.</small>
+            </div>
+        </fieldset>
+
+        <!-- Boutons de navigation -->
+        <div class="form-actions">
+            <button type="button">Précédent</button>
+            <button type="button">Suivant</button>
+        </div>
+    </div>
+
+    <script>
+        // Générer dynamiquement les champs pour les fenêtres de la façade Nord
+        function generateWindowsNord() {
+            const windowsContainer = document.getElementById("windowsContainerNord");
+            const numberOfWindows = parseInt(document.getElementById("nombreFenetreFacadeNord").value);
+
+            windowsContainer.innerHTML = "";
+
+            if (!isNaN(numberOfWindows) && numberOfWindows > 0) {
+                for (let i = 1; i <= numberOfWindows; i++) {
+                    const windowDiv = document.createElement("div");
+                    windowDiv.classList.add("window-group");
+
+                    windowDiv.innerHTML = `
+                    <fieldset>
+                        <legend>Fenêtre ${i}</legend>
+                        <div class="form-group">
+                            <label for="typeFenetreNord${i}">Type de Fenêtre :</label>
+                            <select id="typeFenetreNord${i}" name="typeFenetreNord${i}" data-required required>
+                                <option value="">Sélectionnez un type</option>
+                                <option value="PVC">PVC</option>
+                                <option value="BOIS">Bois</option>
+                                <option value="ALU">Aluminium</option>
+                                <option value="autre">Autre</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="typeVitrageNord${i}">Type de Vitrage :</label>
+                            <select id="typeVitrageNord${i}" name="typeVitrageNord${i}" data-required required>
+                                <option value="">Sélectionnez un type</option>
+                                <option value="simple">Simple vitrage</option>
+                                <option value="double">Double vitrage</option>
+                                <option value="triple">Triple vitrage</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="typeVoletNord${i}">Type de Volet :</label>
+                            <select id="typeVoletNord${i}" name="typeVoletNord${i}" data-required required>
+                                <option value="">Sélectionnez un type</option>
+                                <option value="battant">Volet battant</option>
+                                <option value="roulant">Volet roulant</option>
+                                <option value="accordeon">Volet accordéon</option>
+                                <option value="sansVolet">Sans volet</option>
+                                <option value="autre">Autre</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="dimensionsFenetreNord${i}">Dimensions (L x H en cm) :</label>
+                            <input type="text" id="dimensionsFenetreNord${i}" name="dimensionsFenetreNord${i}" data-required required
+                                placeholder="Exemple : 120 x 150">
+                        </div>
+                        <div class="form-group">
+                            <label for="anneeMiseEnPlaceNord${i}">Année de mise en place :</label>
+                            <select id="anneeMiseEnPlaceNord${i}" name="anneeMiseEnPlaceNord${i}" data-required required>
+                                <option value="">Sélectionnez une option</option>
+                                <option value="avant1948">Avant 1948</option>
+                                <option value="1948-1974">Entre 1948 et 1974</option>
+                                <option value="1975-1977">Entre 1975 et 1977</option>
+                                <option value="1978-1982">Entre 1978 et 1982</option>
+                                <option value="1983-1988">Entre 1983 et 1988</option>
+                                <option value="1989-2000">Entre 1989 et 2000</option>
+                                <option value="2001-2005">Entre 2001 et 2005</option>
+                                <option value="2006-2012">Entre 2006 et 2012</option>
+                                <option value="2013-2021">Entre 2013 et 2021</option>
+                                <option value="apres2021">Après 2021</option>
+                            </select>
+                        </div>
+                    </fieldset>
+                `;
+
+                    windowsContainer.appendChild(windowDiv);
+                }
+            }
+        }
+    </script>
+
+
+    <script>
+        // Fonction pour générer dynamiquement les champs pour les fenêtres de la façade Nord
+        function generateWindowsNord() {
+            const windowsContainer = document.getElementById("windowsContainerNord");
+            const numberOfWindows = parseInt(document.getElementById("nombreFenetreFacadeNord").value);
+
+            // Réinitialiser le conteneur
+            windowsContainer.innerHTML = "";
+
+            if (!isNaN(numberOfWindows) && numberOfWindows > 0) {
+                for (let i = 1; i <= numberOfWindows; i++) {
+                    const windowDiv = document.createElement("div");
+                    windowDiv.classList.add("window-group");
+
+                    // Ajouter les champs pour chaque fenêtre
+                    windowDiv.innerHTML = `
+                    <fieldset>
+                        <legend>Fenêtre ${i}</legend>
+                        <!-- Type de fenêtre -->
+                        <div class="form-group">
+                            <label for="typeFenetreNord${i}">Type de Fenêtre :</label>
+                            <select id="typeFenetreNord${i}" name="typeFenetreNord${i}" data-required required>
+                                <option value="">Sélectionnez un type</option>
+                                <option value="PVC">PVC</option>
+                                <option value="BOIS">Bois</option>
+                                <option value="ALU">Aluminium</option>
+                                <option value="autre">Autre</option>
+                            </select>
+                        </div>
+                        <!-- Type de vitrage -->
+                        <div class="form-group">
+                            <label for="typeVitrageNord${i}">Type de Vitrage :</label>
+                            <select id="typeVitrageNord${i}" name="typeVitrageNord${i}" data-required required>
+                                <option value="">Sélectionnez un type</option>
+                                <option value="simple">Simple vitrage</option>
+                                <option value="double">Double vitrage</option>
+                                <option value="triple">Triple vitrage</option>
+                            </select>
+                        </div>
+                        <!-- Type de volet -->
+                        <div class="form-group">
+                            <label for="typeVoletNord${i}">Type de Volet :</label>
+                            <select id="typeVoletNord${i}" name="typeVoletNord${i}" data-required required>
+                                <option value="">Sélectionnez un type</option>
+                                <option value="battant">Volet battant</option>
+                                <option value="roulant">Volet roulant</option>
+                                <option value="accordeon">Volet accordéon</option>
+                                <option value="sansVolet">Sans volet</option>
+                                <option value="autre">Autre</option>
+                            </select>
+                        </div>
+                        <!-- Dimensions -->
+                        <div class="form-group">
+                            <label for="dimensionsFenetreNord${i}">Dimensions (L x H en cm) :</label>
+                            <input type="text" id="dimensionsFenetreNord${i}" name="dimensionsFenetreNord${i}" data-required required
+                                placeholder="Exemple : 120 x 150">
+                        </div>
+                        <!-- Année de mise en place -->
+                        <div class="form-group">
+                            <label for="anneeMiseEnPlaceNord${i}">Année de mise en place :</label>
+                            <select id="anneeMiseEnPlaceNord${i}" name="anneeMiseEnPlaceNord${i}" data-required required>
+                                <option value="">Sélectionnez une option</option>
+                                <option value="avant1948">Avant 1948</option>
+                                <option value="1948-1974">Entre 1948 et 1974</option>
+                                <option value="1975-1977">Entre 1975 et 1977</option>
+                                <option value="1978-1982">Entre 1978 et 1982</option>
+                                <option value="1983-1988">Entre 1983 et 1988</option>
+                                <option value="1989-2000">Entre 1989 et 2000</option>
+                                <option value="2001-2005">Entre 2001 et 2005</option>
+                                <option value="2006-2012">Entre 2006 et 2012</option>
+                                <option value="2013-2021">Entre 2013 et 2021</option>
+                                <option value="apres2021">Après 2021</option>
+                            </select>
+                        </div>
+                    </fieldset>
+                `;
+
+                    windowsContainer.appendChild(windowDiv);
+                }
+            }
+        }
+    </script>
+
+    <!-- Page 5 : Façade Sud -->
+    <div class="page" id="page5-sud">
+        <fieldset>
+            <legend>Façade Sud</legend>
+
+            <!-- Orientation du mur -->
+            <div class="form-group">
+                <label for="orientationMurSud">Orientation du mur :</label>
+                <select id="orientationMurSud" name="orientationMurSud" data-required required>
+                    <option value="">Sélectionnez une orientation</option>
+                    <option value="sud">Sud</option>
+                    <option value="sud-est">Sud-Est</option>
+                    <option value="sud-ouest">Sud-Ouest</option>
+                </select>
+            </div>
+
+            <!-- Type de murs -->
+            <div class="form-group">
+                <label for="typeMurSud">Type de murs :</label>
+                <select id="typeMurSud" name="typeMurSud" data-required required>
+                    <option value="">Sélectionnez un type</option>
+                    <option value="brique">Brique</option>
+                    <option value="parpaing">Parpaing</option>
+                    <option value="béton">Béton</option>
+                    <option value="bois">Bois</option>
+                    <option value="autre">Autre</option>
+                </select>
+            </div>
+
+            <!-- Photos de loin de la façade -->
+            <div class="form-group">
+                <label for="photosLoinSud">Photos de loin (max 4) :</label>
+                <input type="file" id="photosLoinSud" name="photosLoinSud[]" accept="image/*" multiple required
+                    data-required required>
+                <small>Vous pouvez charger jusqu'à 4 photos.</small>
+            </div>
+
+            <!-- Mur mitoyen -->
+            <div class="form-group">
+                <label for="murMitoyenSud">Mur mitoyen ? :</label>
+                <select id="murMitoyenSud" name="murMitoyenSud" data-required required>
+                    <option value="">Sélectionnez</option>
+                    <option value="oui">Oui</option>
+                    <option value="non">Non</option>
+                </select>
+            </div>
+
+            <!-- Détails de la mitoyenneté -->
+            <div class="form-group">
+                <label for="detailsMitoyenneteSud">Détails de la mitoyenneté :</label>
+                <textarea id="detailsMitoyenneteSud" name="detailsMitoyenneteSud" rows="3"
+                    placeholder="Précisez les détails de la mitoyenneté"></textarea>
+            </div>
+
+            <!-- Longueur du mur -->
+            <div class="form-group">
+                <label for="longueurMurSud">Longueur du mur :</label>
+                <input type="number" id="longueurMurSud" name="longueurMurSud"
+                    placeholder="Entrez la longueur en mètres" step="0.1" data-required required>
+            </div>
+
+            <!-- Hauteur sous gouttières -->
+            <div class="form-group">
+                <label for="hauteurSousGouttieresSud">Hauteur sous gouttières :</label>
+                <input type="number" id="hauteurSousGouttieresSud" name="hauteurSousGouttieresSud"
+                    placeholder="Entrez la hauteur en mètres" step="0.1" data-required required>
+            </div>
+
+            <!-- Surface totale -->
+            <div class="form-group">
+                <label for="surfaceTotaleSud">Surface totale en m² :</label>
+                <input type="number" id="surfaceTotaleSud" name="surfaceTotaleSud" placeholder="Entrez la surface en m²"
+                    step="0.1" data-required required>
+            </div>
+
+            <!-- Isolation -->
+            <fieldset>
+                <legend>Détails de l'isolation</legend>
+
+                <!-- Mur isolé -->
+                <div class="form-group">
+                    <label for="murIsoleSud">Mur isolé ? :</label>
+                    <select id="murIsoleSud" name="murIsoleSud" data-required required>
+                        <option value="">Sélectionnez</option>
+                        <option value="oui">Oui</option>
+                        <option value="non">Non</option>
+                    </select>
+                </div>
+
+                <!-- Type d'isolant -->
+                <div class="form-group">
+                    <label for="typeIsolantSud">Type d'isolant :</label>
+                    <select id="typeIsolantSud" name="typeIsolantSud" data-required required>
+                        <option value="">Sélectionnez un type d'isolant</option>
+                        <option value="laineDeVerre">Laine de verre</option>
+                        <option value="laineDeRoche">Laine de roche</option>
+                        <option value="polystyrene">Polystyrène</option>
+                        <option value="polyurethane">Polyuréthane</option>
+                        <option value="ouateDeCellulose">Ouate de cellulose</option>
+                        <option value="autre">Autre</option>
+                    </select>
+                </div>
+
+                <!-- Épaisseur de l'isolant -->
+                <div class="form-group">
+                    <label for="epaisseurIsolantSud">Épaisseur de l'isolant (mm) :</label>
+                    <input type="number" id="epaisseurIsolantSud" name="epaisseurIsolantSud"
+                        placeholder="Entrez l'épaisseur en millimètres" step="1" data-required required>
+                </div>
+
+                <!-- Année de l'isolation -->
+                <div class="form-group">
+                    <label for="dateIsolationSud">Année de l'isolation :</label>
+                    <select id="dateIsolationSud" name="dateIsolationSud" data-required required>
+                        <option value="">Sélectionnez une option</option>
+                        <option value="avant1948">Avant 1948</option>
+                        <option value="1948-1974">Entre 1948 et 1974</option>
+                        <option value="1975-1977">Entre 1975 et 1977</option>
+                        <option value="1978-1982">Entre 1978 et 1982</option>
+                        <option value="1983-1988">Entre 1983 et 1988</option>
+                        <option value="1989-2000">Entre 1989 et 2000</option>
+                        <option value="2001-2005">Entre 2001 et 2005</option>
+                        <option value="2006-2012">Entre 2006 et 2012</option>
+                        <option value="2013-2021">Entre 2013 et 2021</option>
+                        <option value="apres2021">Après 2021</option>
+                    </select>
+                </div>
+            </fieldset>
+
+            <!-- Fenêtres -->
+            <div class="form-group">
+                <label for="nombreFenetreFacadeSud">Nombre de fenêtres :</label>
+                <select id="nombreFenetreFacadeSud" name="nombreFenetreFacadeSud" onchange="generateWindowsSud()"
+                    data-required required>
+                    <option value="">Sélectionnez une option</option>
+                    <option value="1">1 Fenêtre</option>
+                    <option value="2">2 Fenêtres</option>
+                    <option value="3">3 Fenêtres</option>
+                    <option value="4">4 Fenêtres</option>
+                    <option value="5">5 Fenêtres</option>
+                    <option value="6">6 Fenêtres</option>
+                    <option value="7">7 Fenêtres</option>
+                    <option value="8">8 Fenêtres</option>
+                    <option value="9">9 Fenêtres</option>
+                    <option value="10">10 Fenêtres</option>
+                </select>
+            </div>
+            <div id="windowsContainerSud"></div>
+
+            <!-- Photos croquis de façade -->
+            <div class="form-group">
+                <label for="photosCroquisFacadeSud">Photos croquis de Façade :</label>
+                <input type="file" id="photosCroquisFacadeSud" name="photosCroquisFacadeSud[]" accept="image/*" multiple
+                    data-required required>
+                <small>Vous pouvez charger plusieurs photos.</small>
+            </div>
+        </fieldset>
+
+        <!-- Boutons de navigation -->
+        <div class="form-actions">
+            <button type="button">Précédent</button>
+            <button type="button">Suivant</button>
+        </div>
+    </div>
+
+    <script>
+        // Générer dynamiquement les champs pour les fenêtres de la façade Sud
+        function generateWindowsSud() {
+            const windowsContainer = document.getElementById("windowsContainerSud");
+            const numberOfWindows = parseInt(document.getElementById("nombreFenetreFacadeSud").value);
+
+            windowsContainer.innerHTML = "";
+
+            if (!isNaN(numberOfWindows) && numberOfWindows > 0) {
+                for (let i = 1; i <= numberOfWindows; i++) {
+                    const windowDiv = document.createElement("div");
+                    windowDiv.classList.add("window-group");
+
+                    windowDiv.innerHTML = `
+                    <fieldset>
+                        <legend>Fenêtre ${i}</legend>
+                        <div class="form-group">
+                            <label for="typeFenetreSud${i}">Type de Fenêtre :</label>
+                            <select id="typeFenetreSud${i}" name="typeFenetreSud${i}" data-required required>
+                                <option value="">Sélectionnez un type</option>
+                                <option value="PVC">PVC</option>
+                                <option value="BOIS">Bois</option>
+                                <option value="ALU">Aluminium</option>
+                                <option value="autre">Autre</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="typeVitrageSud${i}">Type de Vitrage :</label>
+                            <select id="typeVitrageSud${i}" name="typeVitrageSud${i}" data-required required>
+                                <option value="">Sélectionnez un type</option>
+                                <option value="simple">Simple vitrage</option>
+                                <option value="double">Double vitrage</option>
+                                <option value="triple">Triple vitrage</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="typeVoletSud${i}">Type de Volet :</label>
+                            <select id="typeVoletSud${i}" name="typeVoletSud${i}" data-required required>
+                                <option value="">Sélectionnez un type</option>
+                                <option value="battant">Volet battant</option>
+                                <option value="roulant">Volet roulant</option>
+                                <option value="accordeon">Volet accordéon</option>
+                                <option value="sansVolet">Sans volet</option>
+                                <option value="autre">Autre</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="dimensionsFenetreSud${i}">Dimensions (L x H en cm) :</label>
+                            <input type="text" id="dimensionsFenetreSud${i}" name="dimensionsFenetreSud${i}" data-required required
+                                placeholder="Exemple : 120 x 150">
+                        </div>
+                        <div class="form-group">
+                            <label for="anneeMiseEnPlaceSud${i}">Année de mise en place :</label>
+                            <select id="anneeMiseEnPlaceSud${i}" name="anneeMiseEnPlaceSud${i}" data-required required>
+                                <option value="">Sélectionnez une option</option>
+                                <option value="avant1948">Avant 1948</option>
+                                <option value="1948-1974">Entre 1948 et 1974</option>
+                                <option value="1975-1977">Entre 1975 et 1977</option>
+                                <option value="1978-1982">Entre 1978 et 1982</option>
+                                <option value="1983-1988">Entre 1983 et 1988</option>
+                                <option value="1989-2000">Entre 1989 et 2000</option>
+                                <option value="2001-2005">Entre 2001 et 2005</option>
+                                <option value="2006-2012">Entre 2006 et 2012</option>
+                                <option value="2013-2021">Entre 2013 et 2021</option>
+                                <option value="apres2021">Après 2021</option>
+                            </select>
+                        </div>
+                    </fieldset>
+                `;
+
+                    windowsContainer.appendChild(windowDiv);
+                }
+            }
+        }
+    </script>
+
+    <!-- Page 6 : Façade Ouest -->
+    <div class="page" id="page6-ouest">
+        <fieldset>
+            <legend>Façade Ouest</legend>
+
+            <!-- Orientation du mur -->
+            <div class="form-group">
+                <label for="orientationMurOuest">Orientation du mur :</label>
+                <select id="orientationMurOuest" name="orientationMurOuest" data-required required>
+                    <option value="">Sélectionnez une orientation</option>
+                    <option value="ouest">Ouest</option>
+                    <option value="sud-ouest">Sud-Ouest</option>
+                    <option value="nord-ouest">Nord-Ouest</option>
+                </select>
+            </div>
+
+            <!-- Type de murs -->
+            <div class="form-group">
+                <label for="typeMurOuest">Type de murs :</label>
+                <select id="typeMurOuest" name="typeMurOuest" data-required required>
+                    <option value="">Sélectionnez un type</option>
+                    <option value="brique">Brique</option>
+                    <option value="parpaing">Parpaing</option>
+                    <option value="béton">Béton</option>
+                    <option value="bois">Bois</option>
+                    <option value="autre">Autre</option>
+                </select>
+            </div>
+
+            <!-- Photos de loin de la façade -->
+            <div class="form-group">
+                <label for="photosLoinOuest">Photos de loin (max 4) :</label>
+                <input type="file" id="photosLoinOuest" name="photosLoinOuest[]" accept="image/*" multiple required
+                    data-required required>
+                <small>Vous pouvez charger jusqu'à 4 photos.</small>
+            </div>
+
+            <!-- Mur mitoyen -->
+            <div class="form-group">
+                <label for="murMitoyenOuest">Mur mitoyen ? :</label>
+                <select id="murMitoyenOuest" name="murMitoyenOuest" data-required required>
+                    <option value="">Sélectionnez</option>
+                    <option value="oui">Oui</option>
+                    <option value="non">Non</option>
+                </select>
+            </div>
+
+            <!-- Détails de la mitoyenneté -->
+            <div class="form-group">
+                <label for="detailsMitoyenneteOuest">Détails de la mitoyenneté :</label>
+                <textarea id="detailsMitoyenneteOuest" name="detailsMitoyenneteOuest" rows="3"
+                    placeholder="Précisez les détails de la mitoyenneté"></textarea>
+            </div>
+
+            <!-- Longueur du mur -->
+            <div class="form-group">
+                <label for="longueurMurOuest">Longueur du mur :</label>
+                <input type="number" id="longueurMurOuest" name="longueurMurOuest"
+                    placeholder="Entrez la longueur en mètres" step="0.1" data-required required>
+            </div>
+
+            <!-- Hauteur sous gouttières -->
+            <div class="form-group">
+                <label for="hauteurSousGouttieresOuest">Hauteur sous gouttières :</label>
+                <input type="number" id="hauteurSousGouttieresOuest" name="hauteurSousGouttieresOuest"
+                    placeholder="Entrez la hauteur en mètres" step="0.1" data-required required>
+            </div>
+
+            <!-- Surface totale -->
+            <div class="form-group">
+                <label for="surfaceTotaleOuest">Surface totale en m² :</label>
+                <input type="number" id="surfaceTotaleOuest" name="surfaceTotaleOuest"
+                    placeholder="Entrez la surface en m²" step="0.1" data-required required>
+            </div>
+
+            <!-- Isolation -->
+            <fieldset>
+                <legend>Détails de l'isolation</legend>
+
+                <!-- Mur isolé -->
+                <div class="form-group">
+                    <label for="murIsoleOuest">Mur isolé ? :</label>
+                    <select id="murIsoleOuest" name="murIsoleOuest" data-required required>
+                        <option value="">Sélectionnez</option>
+                        <option value="oui">Oui</option>
+                        <option value="non">Non</option>
+                    </select>
+                </div>
+
+                <!-- Type d'isolant -->
+                <div class="form-group">
+                    <label for="typeIsolantOuest">Type d'isolant :</label>
+                    <select id="typeIsolantOuest" name="typeIsolantOuest" data-required required>
+                        <option value="">Sélectionnez un type d'isolant</option>
+                        <option value="laineDeVerre">Laine de verre</option>
+                        <option value="laineDeRoche">Laine de roche</option>
+                        <option value="polystyrene">Polystyrène</option>
+                        <option value="polyurethane">Polyuréthane</option>
+                        <option value="ouateDeCellulose">Ouate de cellulose</option>
+                        <option value="autre">Autre</option>
+                    </select>
+                </div>
+
+                <!-- Épaisseur de l'isolant -->
+                <div class="form-group">
+                    <label for="epaisseurIsolantOuest">Épaisseur de l'isolant (mm) :</label>
+                    <input type="number" id="epaisseurIsolantOuest" name="epaisseurIsolantOuest"
+                        placeholder="Entrez l'épaisseur en millimètres" step="1" data-required required>
+                </div>
+
+                <!-- Année de l'isolation -->
+                <div class="form-group">
+                    <label for="dateIsolationOuest">Année de l'isolation :</label>
+                    <select id="dateIsolationOuest" name="dateIsolationOuest" data-required required>
+                        <option value="">Sélectionnez une option</option>
+                        <option value="avant1948">Avant 1948</option>
+                        <option value="1948-1974">Entre 1948 et 1974</option>
+                        <option value="1975-1977">Entre 1975 et 1977</option>
+                        <option value="1978-1982">Entre 1978 et 1982</option>
+                        <option value="1983-1988">Entre 1983 et 1988</option>
+                        <option value="1989-2000">Entre 1989 et 2000</option>
+                        <option value="2001-2005">Entre 2001 et 2005</option>
+                        <option value="2006-2012">Entre 2006 et 2012</option>
+                        <option value="2013-2021">Entre 2013 et 2021</option>
+                        <option value="apres2021">Après 2021</option>
+                    </select>
+                </div>
+            </fieldset>
+
+            <!-- Fenêtres -->
+            <div class="form-group">
+                <label for="nombreFenetreFacadeOuest">Nombre de fenêtres :</label>
+                <select id="nombreFenetreFacadeOuest" name="nombreFenetreFacadeOuest" onchange="generateWindowsOuest()"
+                    data-required required>
+                    <option value="">Sélectionnez une option</option>
+                    <option value="1">1 Fenêtre</option>
+                    <option value="2">2 Fenêtres</option>
+                    <option value="3">3 Fenêtres</option>
+                    <option value="4">4 Fenêtres</option>
+                    <option value="5">5 Fenêtres</option>
+                    <option value="6">6 Fenêtres</option>
+                    <option value="7">7 Fenêtres</option>
+                    <option value="8">8 Fenêtres</option>
+                    <option value="9">9 Fenêtres</option>
+                    <option value="10">10 Fenêtres</option>
+                </select>
+            </div>
+            <div id="windowsContainerOuest"></div>
+
+            <!-- Photos croquis de façade -->
+            <div class="form-group">
+                <label for="photosCroquisFacadeOuest">Photos croquis de Façade :</label>
+                <input type="file" id="photosCroquisFacadeOuest" name="photosCroquisFacadeOuest[]" accept="image/*"
+                    multiple data-required>
+                <small>Vous pouvez charger plusieurs photos.</small>
+            </div>
+        </fieldset>
+
+        <!-- Boutons de navigation -->
+        <div class="form-actions">
+            <button type="button">Précédent</button>
+            <button type="button">Suivant</button>
+        </div>
+    </div>
+
+    <script>
+        // Générer dynamiquement les champs pour les fenêtres de la façade Ouest
+        function generateWindowsOuest() {
+            const windowsContainer = document.getElementById("windowsContainerOuest");
+            const numberOfWindows = parseInt(document.getElementById("nombreFenetreFacadeOuest").value);
+
+            windowsContainer.innerHTML = "";
+
+            if (!isNaN(numberOfWindows) && numberOfWindows > 0) {
+                for (let i = 1; i <= numberOfWindows; i++) {
+                    const windowDiv = document.createElement("div");
+                    windowDiv.classList.add("window-group");
+
+                    windowDiv.innerHTML = `
+                    <fieldset>
+                        <legend>Fenêtre ${i}</legend>
+                        <div class="form-group">
+                            <label for="typeFenetreOuest${i}">Type de Fenêtre :</label>
+                            <select id="typeFenetreOuest${i}" name="typeFenetreOuest${i}" data-required>
+                                <option value="">Sélectionnez un type</option>
+                                <option value="PVC">PVC</option>
+                                <option value="BOIS">Bois</option>
+                                <option value="ALU">Aluminium</option>
+                                <option value="autre">Autre</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="typeVitrageOuest${i}">Type de Vitrage :</label>
+                            <select id="typeVitrageOuest${i}" name="typeVitrageOuest${i}" data-required>
+                                <option value="">Sélectionnez un type</option>
+                                <option value="simple">Simple vitrage</option>
+                                <option value="double">Double vitrage</option>
+                                <option value="triple">Triple vitrage</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="typeVoletOuest${i}">Type de Volet :</label>
+                            <select id="typeVoletOuest${i}" name="typeVoletOuest${i}" data-required>
+                                <option value="">Sélectionnez un type</option>
+                                <option value="battant">Volet battant</option>
+                                <option value="roulant">Volet roulant</option>
+                                <option value="accordeon">Volet accordéon</option>
+                                <option value="sansVolet">Sans volet</option>
+                                <option value="autre">Autre</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="dimensionsFenetreOuest${i}">Dimensions (L x H en cm) :</label>
+                            <input type="text" id="dimensionsFenetreOuest${i}" name="dimensionsFenetreOuest${i}" data-required
+                                placeholder="Exemple : 120 x 150">
+                        </div>
+                        <div class="form-group">
+                            <label for="anneeMiseEnPlaceOuest${i}">Année de mise en place :</label>
+                            <select id="anneeMiseEnPlaceOuest${i}" name="anneeMiseEnPlaceOuest${i}" data-required>
+                                <option value="">Sélectionnez une option</option>
+                                <option value="avant1948">Avant 1948</option>
+                                <option value="1948-1974">Entre 1948 et 1974</option>
+                                <option value="1975-1977">Entre 1975 et 1977</option>
+                                <option value="1978-1982">Entre 1978 et 1982</option>
+                                <option value="1983-1988">Entre 1983 et 1988</option>
+                                <option value="1989-2000">Entre 1989 et 2000</option>
+                                <option value="2001-2005">Entre 2001 et 2005</option>
+                                <option value="2006-2012">Entre 2006 et 2012</option>
+                                <option value="2013-2021">Entre 2013 et 2021</option>
+                                <option value="apres2021">Après 2021</option>
+                            </select>
+                        </div>
+                    </fieldset>
+                `;
+
+                    windowsContainer.appendChild(windowDiv);
+                }
+            }
+        }
+    </script>
+
+    <!-- Page 7 : Façade Est -->
+    <div class="page" id="page7-est">
+        <fieldset>
+            <legend>Façade Est</legend>
+
+            <!-- Orientation du mur -->
+            <div class="form-group">
+                <label for="orientationMurEst">Orientation du mur :</label>
+                <select id="orientationMurEst" name="orientationMurEst" data-required>
+                    <option value="">Sélectionnez une orientation</option>
+                    <option value="est">Est</option>
+                    <option value="sud-est">Sud-Est</option>
+                    <option value="nord-est">Nord-Est</option>
+                </select>
+            </div>
+
+            <!-- Type de murs -->
+            <div class="form-group">
+                <label for="typeMurEst">Type de murs :</label>
+                <select id="typeMurEst" name="typeMurEst" data-required>
+                    <option value="">Sélectionnez un type</option>
+                    <option value="brique">Brique</option>
+                    <option value="parpaing">Parpaing</option>
+                    <option value="béton">Béton</option>
+                    <option value="bois">Bois</option>
+                    <option value="autre">Autre</option>
+                </select>
+            </div>
+
+            <!-- Photos de loin de la façade -->
+            <div class="form-group">
+                <label for="photosLoinEst">Photos de loin (max 4) :</label>
+                <input type="file" id="photosLoinEst" name="photosLoinEst[]" accept="image/*" multiple data-required>
+                <small>Vous pouvez charger jusqu'à 4 photos.</small>
+            </div>
+
+            <!-- Mur mitoyen -->
+            <div class="form-group">
+                <label for="murMitoyenEst">Mur mitoyen ? :</label>
+                <select id="murMitoyenEst" name="murMitoyenEst" data-required>
+                    <option value="">Sélectionnez</option>
+                    <option value="oui">Oui</option>
+                    <option value="non">Non</option>
+                </select>
+            </div>
+
+            <!-- Détails de la mitoyenneté -->
+            <div class="form-group">
+                <label for="detailsMitoyenneteEst">Détails de la mitoyenneté :</label>
+                <textarea id="detailsMitoyenneteEst" name="detailsMitoyenneteEst" rows="3"
+                    placeholder="Précisez les détails de la mitoyenneté"></textarea>
+            </div>
+
+            <!-- Longueur du mur -->
+            <div class="form-group">
+                <label for="longueurMurEst">Longueur du mur :</label>
+                <input type="number" id="longueurMurEst" name="longueurMurEst"
+                    placeholder="Entrez la longueur en mètres" step="0.1" data-required>
+            </div>
+
+            <!-- Hauteur sous gouttières -->
+            <div class="form-group">
+                <label for="hauteurSousGouttieresEst">Hauteur sous gouttières :</label>
+                <input type="number" id="hauteurSousGouttieresEst" name="hauteurSousGouttieresEst"
+                    placeholder="Entrez la hauteur en mètres" step="0.1" data-required>
+            </div>
+
+            <!-- Surface totale -->
+            <div class="form-group">
+                <label for="surfaceTotaleEst">Surface totale en m² :</label>
+                <input type="number" id="surfaceTotaleEst" name="surfaceTotaleEst" placeholder="Entrez la surface en m²"
+                    step="0.1" data-required>
+            </div>
+
+            <!-- Isolation -->
+            <fieldset>
+                <legend>Détails de l'isolation</legend>
+
+                <!-- Mur isolé -->
+                <div class="form-group">
+                    <label for="murIsoleEst">Mur isolé ? :</label>
+                    <select id="murIsoleEst" name="murIsoleEst" data-required>
+                        <option value="">Sélectionnez</option>
+                        <option value="oui">Oui</option>
+                        <option value="non">Non</option>
+                    </select>
+                </div>
+
+                <!-- Type d'isolant -->
+                <div class="form-group">
+                    <label for="typeIsolantEst">Type d'isolant :</label>
+                    <select id="typeIsolantEst" name="typeIsolantEst" data-required>
+                        <option value="">Sélectionnez un type d'isolant</option>
+                        <option value="laineDeVerre">Laine de verre</option>
+                        <option value="laineDeRoche">Laine de roche</option>
+                        <option value="polystyrene">Polystyrène</option>
+                        <option value="polyurethane">Polyuréthane</option>
+                        <option value="ouateDeCellulose">Ouate de cellulose</option>
+                        <option value="autre">Autre</option>
+                    </select>
+                </div>
+
+                <!-- Épaisseur de l'isolant -->
+                <div class="form-group">
+                    <label for="epaisseurIsolantEst">Épaisseur de l'isolant (mm) :</label>
+                    <input type="number" id="epaisseurIsolantEst" name="epaisseurIsolantEst"
+                        placeholder="Entrez l'épaisseur en millimètres" step="1" data-required>
+                </div>
+
+                <!-- Année de l'isolation -->
+                <div class="form-group">
+                    <label for="dateIsolationEst">Année de l'isolation :</label>
+                    <select id="dateIsolationEst" name="dateIsolationEst" data-required>
+                        <option value="">Sélectionnez une option</option>
+                        <option value="avant1948">Avant 1948</option>
+                        <option value="1948-1974">Entre 1948 et 1974</option>
+                        <option value="1975-1977">Entre 1975 et 1977</option>
+                        <option value="1978-1982">Entre 1978 et 1982</option>
+                        <option value="1983-1988">Entre 1983 et 1988</option>
+                        <option value="1989-2000">Entre 1989 et 2000</option>
+                        <option value="2001-2005">Entre 2001 et 2005</option>
+                        <option value="2006-2012">Entre 2006 et 2012</option>
+                        <option value="2013-2021">Entre 2013 et 2021</option>
+                        <option value="apres2021">Après 2021</option>
+                    </select>
+                </div>
+            </fieldset>
+
+            <!-- Fenêtres -->
+            <div class="form-group">
+                <label for="nombreFenetreFacadeEst">Nombre de fenêtres :</label>
+                <select id="nombreFenetreFacadeEst" name="nombreFenetreFacadeEst" onchange="generateWindowsEst()"
+                    data-required>
+                    <option value="">Sélectionnez une option</option>
+                    <option value="1">1 Fenêtre</option>
+                    <option value="2">2 Fenêtres</option>
+                    <option value="3">3 Fenêtres</option>
+                    <option value="4">4 Fenêtres</option>
+                    <option value="5">5 Fenêtres</option>
+                    <option value="6">6 Fenêtres</option>
+                    <option value="7">7 Fenêtres</option>
+                    <option value="8">8 Fenêtres</option>
+                    <option value="9">9 Fenêtres</option>
+                    <option value="10">10 Fenêtres</option>
+                </select>
+            </div>
+            <div id="windowsContainerEst"></div>
+
+            <!-- Photos croquis de façade -->
+            <div class="form-group">
+                <label for="photosCroquisFacadeEst">Photos croquis de Façade :</label>
+                <input type="file" id="photosCroquisFacadeEst" name="photosCroquisFacadeEst[]" accept="image/*" multiple
+                    data-required>
+                <small>Vous pouvez charger plusieurs photos.</small>
+            </div>
+        </fieldset>
+
+        <!-- Boutons de navigation -->
+        <div class="form-actions">
+            <button type="button">Précédent</button>
+            <button type="button">Suivant</button>
+        </div>
+    </div>
+
+    <script>
+        // Générer dynamiquement les champs pour les fenêtres de la façade Est
+        function generateWindowsEst() {
+            const windowsContainer = document.getElementById("windowsContainerEst");
+            const numberOfWindows = parseInt(document.getElementById("nombreFenetreFacadeEst").value);
+
+            windowsContainer.innerHTML = "";
+
+            if (!isNaN(numberOfWindows) && numberOfWindows > 0) {
+                for (let i = 1; i <= numberOfWindows; i++) {
+                    const windowDiv = document.createElement("div");
+                    windowDiv.classList.add("window-group");
+
+                    windowDiv.innerHTML = `
+                    <fieldset>
+                        <legend>Fenêtre ${i}</legend>
+                        <div class="form-group">
+                            <label for="typeFenetreEst${i}">Type de Fenêtre :</label>
+                            <select id="typeFenetreEst${i}" name="typeFenetreEst${i}" data-required>
+                                <option value="">Sélectionnez un type</option>
+                                <option value="PVC">PVC</option>
+                                <option value="BOIS">Bois</option>
+                                <option value="ALU">Aluminium</option>
+                                <option value="autre">Autre</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="typeVitrageEst${i}">Type de Vitrage :</label>
+                            <select id="typeVitrageEst${i}" name="typeVitrageEst${i}" data-required>
+                                <option value="">Sélectionnez un type</option>
+                                <option value="simple">Simple vitrage</option>
+                                <option value="double">Double vitrage</option>
+                                <option value="triple">Triple vitrage</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="typeVoletEst${i}">Type de Volet :</label>
+                            <select id="typeVoletEst${i}" name="typeVoletEst${i}" data-required>
+                                <option value="">Sélectionnez un type</option>
+                                <option value="battant">Volet battant</option>
+                                <option value="roulant">Volet roulant</option>
+                                <option value="accordeon">Volet accordéon</option>
+                                <option value="sansVolet">Sans volet</option>
+                                <option value="autre">Autre</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="dimensionsFenetreEst${i}">Dimensions (L x H en cm) :</label>
+                            <input type="text" id="dimensionsFenetreEst${i}" name="dimensionsFenetreEst${i}" data-required
+                                placeholder="Exemple : 120 x 150">
+                        </div>
+                        <div class="form-group">
+                            <label for="anneeMiseEnPlaceEst${i}">Année de mise en place :</label>
+                            <select id="anneeMiseEnPlaceEst${i}" name="anneeMiseEnPlaceEst${i}" data-required>
+                                <option value="">Sélectionnez une option</option>
+                                <option value="avant1948">Avant 1948</option>
+                                <option value="1948-1974">Entre 1948 et 1974</option>
+                                <option value="1975-1977">Entre 1975 et 1977</option>
+                                <option value="1978-1982">Entre 1978 et 1982</option>
+                                <option value="1983-1988">Entre 1983 et 1988</option>
+                                <option value="1989-2000">Entre 1989 et 2000</option>
+                                <option value="2001-2005">Entre 2001 et 2005</option>
+                                <option value="2006-2012">Entre 2006 et 2012</option>
+                                <option value="2013-2021">Entre 2013 et 2021</option>
+                                <option value="apres2021">Après 2021</option>
+                            </select>
+                        </div>
+                    </fieldset>
+                `;
+
+                    windowsContainer.appendChild(windowDiv);
+                }
+            }
+        }
+    </script>
+
+
+
+
+
+    <!-- Page 5 : Informations Plancher Bas -->
+    <div class="page" id="page5">
+        <fieldset>
+            <legend>Informations Plancher Bas</legend>
+            <!-- Type de plancher -->
+            <div class="form-group">
+                <label for="typePlancher">Type de plancher :</label>
+                <select id="typePlancher" name="typePlancher" data-data-required required>
+                    <option value="">Sélectionnez une option</option>
+                    <option value="dalleBeton">Dalle de béton</option>
+                    <option value="plancherBois">Planchers bois solive</option>
+                    <option value="plancherMetal">Planchers métalliques</option>
+                    <option value="plancherHourdis">Planchers hourdis</option>
+                    <option value="plancherAutre">Autre</option>
+                </select>
+            </div>
+
+            <!-- Position du plancher -->
+            <div class="form-group">
+                <label for="positionPlancher">Position du plancher :</label>
+                <select id="positionPlancher" name="positionPlancher" data-required required>
+                    <option value="">Sélectionnez une option</option>
+                    <option value="terrePlein">Sur terre-plein</option>
+                    <option value="videSanitaire">Vide sanitaire</option>
+                    <option value="sousSol">Sous-sol</option>
+                    <option value="etage">Étage</option>
+                    <option value="combles">Cave</option>
+                    <option value="autre">Autre</option>
+                </select>
+            </div>
+
+            <!-- Longueur -->
+            <div class="form-group">
+                <label for="longueurPlancher">Longueur (m) :</label>
+                <input type="number" id="longueurPlancher" name="longueurPlancher" step="0.01" data-required required
+                    placeholder="Exemple : 10.5" data-required required>
+            </div>
+
+            <!-- Largeur -->
+            <div class="form-group">
+                <label for="largeurPlancher">Largeur (m) :</label>
+                <input type="number" id="largeurPlancher" name="largeurPlancher" step="0.01" data-required required
+                    placeholder="Exemple : 8.0" data-required required>
+            </div>
+
+            <!-- Surface -->
+            <div class="form-group">
+                <label for="surfacePlancher">Surface (m²) :</label>
+                <input type="number" id="surfacePlancher" name="surfacePlancher" step="0.01" data-required required
+                    placeholder="Exemple : 80.0" data-required required>
+            </div>
+
+            <!-- Plancher est-il isolé -->
+            <div class="form-group">
+                <label for="plancherIsole">Plancher est-il isolé ? :</label>
+                <select id="plancherIsole" name="plancherIsole" data-required required>
+                    <option value="">Sélectionnez une option</option>
+                    <option value="oui">Oui</option>
+                    <option value="non">Non</option>
+                </select>
+            </div>
+
+            <!-- Détails de l'isolation -->
+            <div>
+                <div class="form-group">
+                    <label for="typeIsolantPlancher">Type d'isolant :</label>
+                    <select id="typeIsolantPlancher" name="typeIsolantPlancher">
+                        <option value="">Sélectionnez une option</option>
+                        <option value="laineDeVerre">Laine de verre</option>
+                        <option value="laineDeRoche">Laine de roche</option>
+                        <option value="polystyrene">Polystyrène</option>
+                        <option value="polyurethane">Polyuréthane</option>
+                        <option value="ouateDeCellulose">Ouate de cellulose</option>
+                        <option value="autre">Autre</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="epaisseurIsolantPlancher">Épaisseur de l'isolant (mm) :</label>
+                    <input type="number" id="epaisseurIsolantPlancher" name="epaisseurIsolantPlancher" step="1"
+                        placeholder="Exemple : 150">
+                </div>
+
+                <div class="form-group">
+                    <label for="anneeIsolationPlancher">Année de l'isolation :</label>
+                    <select id="anneeIsolationPlancher" name="anneeIsolationPlancher">
+                        <option value="">Sélectionnez une option</option>
+                        <option value="avant1948">Avant 1948</option>
+                        <option value="1948-1974">Entre 1948 et 1974</option>
+                        <option value="1975-1977">Entre 1975 et 1977</option>
+                        <option value="1978-1982">Entre 1978 et 1982</option>
+                        <option value="1983-1988">Entre 1983 et 1988</option>
+                        <option value="1989-2000">Entre 1989 et 2000</option>
+                        <option value="2001-2005">Entre 2001 et 2005</option>
+                        <option value="2006-2012">Entre 2006 et 2012</option>
+                        <option value="2013-2021">Entre 2013 et 2021</option>
+                        <option value="apres2021">Après 2021</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Commentaire -->
+            <div class="form-group">
+                <label for="commentairePlancher">Commentaire :</label>
+                <textarea id="commentairePlancher" name="commentairePlancher" rows="4"
+                    placeholder="Ajoutez des commentaires"></textarea>
             </div>
 
             <div class="form-group">
-                <label for="anneeIsolationPlancher">Année de l'isolation :</label>
-                <select id="anneeIsolationPlancher" name="anneeIsolationPlancher">
+                <label for="photosPlancherBas">Photos de Plancher Bas :</label>
+                <input type="file" id="photosPlancherBas" name="photosPlancherBas[]" accept="image/*" multiple
+                    data-required required>
+                <small>Vous pouvez charger jusqu'à 4 photos.</small>
+            </div>
+
+        </fieldset>
+
+        <!-- Boutons de navigation -->
+        <div class="form-actions">
+            <button type="button">Précédent</button>
+            <button type="button">Suivant</button>
+
+        </div>
+    </div>
+
+    <!-- Page 6 : Informations Les Combles -->
+    <div class="page" id="page6">
+        <fieldset>
+            <legend>Informations Les Combles</legend>
+            <!-- Type de plancher -->
+            <div class="form-group">
+                <label for="typePlancherCombles">Type de plancher :</label>
+                <select id="typePlancherCombles" name="typePlancherCombles" data-required required>
+                    <option value="">Sélectionnez une option</option>
+                    <option value="bois">Bois</option>
+                    <option value="beton">Béton</option>
+                    <option value="autre">Autre</option>
+                </select>
+            </div>
+
+            <!-- Position des combles -->
+            <div class="form-group">
+                <label for="positionCombles">Position des combles :</label>
+                <select id="positionCombles" name="positionCombles" data-required required>
+                    <option value="">Sélectionnez une option</option>
+                    <option value="comblesPerdus">Combles perdus</option>
+                    <option value="terrasse">Terrasse</option>
+                    <option value="sousRampant">Sous rampant</option>
+                    <option value="autre">Autre</option>
+                </select>
+            </div>
+
+            <!-- Longueur -->
+            <div class="form-group">
+                <label for="longueurCombles">Longueur (m) :</label>
+                <input type="number" id="longueurCombles" name="longueurCombles" step="0.01" data-required required
+                    placeholder="Exemple : 10.5">
+            </div>
+
+            <!-- Largeur -->
+            <div class="form-group">
+                <label for="largeurCombles">Largeur (m) :</label>
+                <input type="number" id="largeurCombles" name="largeurCombles" step="0.01" data-required required
+                    placeholder="Exemple : 8.0">
+            </div>
+
+            <!-- Surface -->
+            <div class="form-group">
+                <label for="surfaceCombles">Surface (m²) :</label>
+                <input type="number" id="surfaceCombles" name="surfaceCombles" step="0.01" data-required required
+                    placeholder="Exemple : 80.0">
+            </div>
+
+            <!-- Plancher est-il isolé -->
+            <div class="form-group">
+                <label for="plancherIsoleCombles">Plancher est-il isolé ? :</label>
+                <select id="plancherIsoleCombles" name="plancherIsoleCombles" data-required required>
+                    <option value="">Sélectionnez une option</option>
+                    <option value="oui">Oui</option>
+                    <option value="non">Non</option>
+                </select>
+            </div>
+
+            <!-- Détails de l'isolation -->
+            <div>
+                <div class="form-group">
+                    <label for="typeIsolantCombles">Type d'isolant :</label>
+                    <select id="typeIsolantCombles" name="typeIsolantCombles">
+                        <option value="">Sélectionnez une option</option>
+                        <option value="laineDeVerre">Laine de verre</option>
+                        <option value="laineDeRoche">Laine de roche</option>
+                        <option value="polystyrene">Polystyrène</option>
+                        <option value="polyurethane">Polyuréthane</option>
+                        <option value="ouateDeCellulose">Ouate de cellulose</option>
+                        <option value="autre">Autre</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="epaisseurIsolantCombles">Épaisseur de l'isolant (mm) :</label>
+                    <input type="number" id="epaisseurIsolantCombles" name="epaisseurIsolantCombles" step="1"
+                        placeholder="Exemple : 150">
+                </div>
+
+                <div class="form-group">
+                    <label for="anneeIsolationCombles">Année de l'isolation :</label>
+                    <select id="anneeIsolationCombles" name="anneeIsolationCombles">
+                        <option value="">Sélectionnez une option</option>
+                        <option value="avant1948">Avant 1948</option>
+                        <option value="1948-1974">Entre 1948 et 1974</option>
+                        <option value="1975-1977">Entre 1975 et 1977</option>
+                        <option value="1978-1982">Entre 1978 et 1982</option>
+                        <option value="1983-1988">Entre 1983 et 1988</option>
+                        <option value="1989-2000">Entre 1989 et 2000</option>
+                        <option value="2001-2005">Entre 2001 et 2005</option>
+                        <option value="2006-2012">Entre 2006 et 2012</option>
+                        <option value="2013-2021">Entre 2013 et 2021</option>
+                        <option value="apres2021">Après 2021</option>
+                    </select>
+                </div>
+            </div>
+
+
+            <!-- Photos des combles -->
+            <div class="form-group">
+                <label for="photosCombles">Photos des combles :</label>
+                <input type="file" id="photosCombles" name="photosCombles[]" accept="image/*" multiple data-required
+                    required>
+                <small>Vous pouvez charger jusqu'à 4 photos.</small>
+            </div>
+            <!-- Commentaire -->
+            <div class="form-group">
+                <label for="commentaireCombles">Commentaire :</label>
+                <textarea id="commentaireCombles" name="commentaireCombles" rows="4"
+                    placeholder="Ajoutez des commentaires"></textarea>
+            </div>
+
+
+        </fieldset>
+
+        <!-- Boutons de navigation -->
+        <div class="form-actions">
+            <button type="button">Précédent</button>
+            <button type="button">Suivant</button>
+        </div>
+    </div>
+
+    <!-- Page 7 : Informations Chauffage -->
+    <div class="page" id="page7">
+        <fieldset>
+            <legend>Informations Chauffage</legend>
+
+            <!-- Type de chauffage -->
+            <div class="form-group">
+                <label for="typeChauffage">Type de chauffage :</label>
+                <select id="typeChauffage" name="typeChauffage" data-required required>
+                    <option value="">Sélectionnez une option</option>
+                    <option value="chaudiereGaz">Chaudière gaz</option>
+                    <option value="chaudiereFioul">Chaudière fioul</option>
+                    <option value="pompeChaleur">Pompe à chaleur</option>
+                    <option value="chauffageElectrique">Chauffage électrique</option>
+                    <option value="poeleBois">Poêle à bois</option>
+                    <option value="poeleGranules">Poêle à granulés</option>
+                    <option value="autre">Autre</option>
+                </select>
+            </div>
+
+            <!-- Type d'émetteur -->
+            <div class="form-group">
+                <label for="typeEmetteur">Type d'émetteur :</label>
+                <select id="typeEmetteur" name="typeEmetteur" data-required required>
+                    <option value="">Sélectionnez une option</option>
+                    <option value="radiateurs">Radiateurs</option>
+                    <option value="plancherChauffant">Plancher chauffant</option>
+                    <option value="convecteurs">Convecteurs</option>
+                    <option value="autre">Autre</option>
+                </select>
+            </div>
+
+            <!-- Type de régulation -->
+            <div class="form-group">
+                <label for="typeRegulation">Type de régulation :</label>
+                <select id="typeRegulation" name="typeRegulation" data-required required>
+                    <option value="">Sélectionnez une option</option>
+                    <option value="thermostatManuel">Thermostat manuel</option>
+                    <option value="thermostatProgrammable">Thermostat programmable</option>
+                    <option value="régulationAutomatique">Régulation automatique</option>
+                    <option value="autre">Autre</option>
+                </select>
+            </div>
+
+            <!-- Année -->
+            <div class="form-group">
+                <label for="anneeChauffage">Année d'installation :</label>
+                <select id="anneeChauffage" name="anneeChauffage">
                     <option value="">Sélectionnez une option</option>
                     <option value="avant1948">Avant 1948</option>
                     <option value="1948-1974">Entre 1948 et 1974</option>
@@ -502,108 +1583,71 @@
                     <option value="apres2021">Après 2021</option>
                 </select>
             </div>
-        </div>
 
-        <!-- Commentaire -->
-        <div class="form-group">
-            <label for="commentairePlancher">Commentaire :</label>
-            <textarea id="commentairePlancher" name="commentairePlancher" rows="4" placeholder="Ajoutez des commentaires"></textarea>
-        </div>
-
-        <div class="form-group">
-            <label for="photosPlancherBas">Photos de Plancher Bas :</label>
-            <input type="file" id="photosPlancherBas" name="photosPlancherBas[]" accept="image/*" multiple data-required required>
-            <small>Vous pouvez charger jusqu'à 4 photos.</small>
-        </div>
-
-    </fieldset>
-
-    <!-- Boutons de navigation -->
-    <div class="form-actions">
-        <button type="button">Précédent</button>
-        <button type="button">Suivant</button>
-        
-    </div>
-</div>
-
-<!-- Page 6 : Informations Les Combles -->
-<div class="page" id="page6">
-    <fieldset>
-        <legend>Informations Les Combles</legend>
-        <!-- Type de plancher -->
-        <div class="form-group">
-            <label for="typePlancherCombles">Type de plancher :</label>
-            <select id="typePlancherCombles" name="typePlancherCombles" data-required required>
-                <option value="">Sélectionnez une option</option>
-                <option value="bois">Bois</option>
-                <option value="beton">Béton</option>
-                <option value="autre">Autre</option>
-            </select>
-        </div>
-
-        <!-- Position des combles -->
-        <div class="form-group">
-            <label for="positionCombles">Position des combles :</label>
-            <select id="positionCombles" name="positionCombles" data-required required>
-                <option value="">Sélectionnez une option</option>
-                <option value="comblesPerdus">Combles perdus</option>
-                <option value="terrasse">Terrasse</option>
-                <option value="sousRampant">Sous rampant</option>
-                <option value="autre">Autre</option>
-            </select>
-        </div>
-
-        <!-- Longueur -->
-        <div class="form-group">
-            <label for="longueurCombles">Longueur (m) :</label>
-            <input type="number" id="longueurCombles" name="longueurCombles" step="0.01" data-required required placeholder="Exemple : 10.5">
-        </div>
-
-        <!-- Largeur -->
-        <div class="form-group">
-            <label for="largeurCombles">Largeur (m) :</label>
-            <input type="number" id="largeurCombles" name="largeurCombles" step="0.01" data-required required placeholder="Exemple : 8.0">
-        </div>
-
-        <!-- Surface -->
-        <div class="form-group">
-            <label for="surfaceCombles">Surface (m²) :</label>
-            <input type="number" id="surfaceCombles" name="surfaceCombles" step="0.01" data-required required placeholder="Exemple : 80.0">
-        </div>
-
-        <!-- Plancher est-il isolé -->
-        <div class="form-group">
-            <label for="plancherIsoleCombles">Plancher est-il isolé ? :</label>
-            <select id="plancherIsoleCombles" name="plancherIsoleCombles" data-required required>
-                <option value="">Sélectionnez une option</option>
-                <option value="oui">Oui</option>
-                <option value="non">Non</option>
-            </select>
-        </div>
-
-        <!-- Détails de l'isolation -->
-        <div>
+            <!-- Photos -->
             <div class="form-group">
-                <label for="typeIsolantCombles">Type d'isolant :</label>
-                <select id="typeIsolantCombles" name="typeIsolantCombles">
+                <label for="photosChauffage">Photos du chauffage :</label>
+                <input type="file" id="photosChauffage" name="photosChauffage[]" accept="image/*" multiple data-required
+                    required>
+                <small>Vous pouvez charger jusqu'à 4 photos.</small>
+            </div>
+
+            <!-- Commentaire -->
+            <div class="form-group">
+                <label for="commentaireChauffage">Commentaire :</label>
+                <textarea id="commentaireChauffage" name="commentaireChauffage" rows="4"
+                    placeholder="Ajoutez des commentaires"></textarea>
+            </div>
+        </fieldset>
+
+        <!-- Boutons de navigation -->
+        <div class="form-actions">
+            <button type="button">Précédent</button>
+            <button type="button">Suivant</button>
+
+        </div>
+    </div>
+
+    <!-- Page 8 : Informations sur le Système ECS -->
+    <div class="page" id="page8">
+        <fieldset>
+            <legend>Informations sur le Système ECS</legend>
+
+            <!-- Production système ECS -->
+            <div class="form-group">
+                <label for="productionECS">Production système ECS :</label>
+                <select id="productionECS" name="productionECS" data-required required>
                     <option value="">Sélectionnez une option</option>
-                    <option value="laineDeVerre">Laine de verre</option>
-                    <option value="laineDeRoche">Laine de roche</option>
-                    <option value="polystyrene">Polystyrène</option>
-                    <option value="polyurethane">Polyuréthane</option>
-                    <option value="ouateDeCellulose">Ouate de cellulose</option>
+                    <option value="chauffeEauElectrique">Chauffe-eau électrique</option>
+                    <option value="chauffeEauGaz">Chauffe-eau gaz</option>
+                    <option value="ballonThermodynamique">Ballon thermodynamique</option>
+                    <option value="chauffeEauSolaire">Chauffe-eau solaire</option>
+                    <option value="ecsPompeChaleur">ECS via pompe à chaleur</option>
                     <option value="autre">Autre</option>
                 </select>
             </div>
 
+            <!-- ECS lié au chauffage -->
             <div class="form-group">
-                <label for="epaisseurIsolantCombles">Épaisseur de l'isolant (mm) :</label>
-                <input type="number" id="epaisseurIsolantCombles" name="epaisseurIsolantCombles" step="1" placeholder="Exemple : 150">
+                <label for="ecsLieChauffage">ECS lié au chauffage ? :</label>
+                <select id="ecsLieChauffage" name="ecsLieChauffage" data-required required>
+                    <option value="">Sélectionnez une option</option>
+                    <option value="oui">Oui</option>
+                    <option value="non">Non</option>
+                </select>
             </div>
 
+            <!-- Capacité -->
             <div class="form-group">
-                <label for="anneeIsolationCombles">Année de l'isolation :</label>
-                <select id="anneeIsolationCombles" name="anneeIsolationCombles">
+                <label for="capaciteECS">Capacité (litres) :</label>
+                <input type="number" id="capaciteECS" name="capaciteECS" step="1" placeholder="Exemple : 200"
+                    data-required required>
+            </div>
+
+            <!-- Année -->
+            <div class="form-group">
+                <label for="anneeECS">Année d'installation :</label>
+                <select id="anneeECS" name="anneeECS">
                     <option value="">Sélectionnez une option</option>
                     <option value="avant1948">Avant 1948</option>
                     <option value="1948-1974">Entre 1948 et 1974</option>
@@ -617,260 +1661,102 @@
                     <option value="apres2021">Après 2021</option>
                 </select>
             </div>
+
+            <!-- Photos -->
+            <div class="form-group">
+                <label for="photosECS">Photos du système ECS :</label>
+                <input type="file" id="photosECS" name="photosECS[]" accept="image/*" multiple data-required required>
+                <small>Vous pouvez charger jusqu'à 4 photos.</small>
+            </div>
+
+            <!-- Commentaire -->
+            <div class="form-group">
+                <label for="commentaireECS">Commentaire :</label>
+                <textarea id="commentaireECS" name="commentaireECS" rows="4"
+                    placeholder="Ajoutez des commentaires"></textarea>
+            </div>
+        </fieldset>
+
+        <!-- Boutons de navigation -->
+        <div class="form-actions">
+            <button type="button">Précédent</button>
+            <button type="button">Suivant</button>
         </div>
-        
-
-        <!-- Photos des combles -->
-        <div class="form-group">
-            <label for="photosCombles">Photos des combles :</label>
-            <input type="file" id="photosCombles" name="photosCombles[]" accept="image/*" multiple data-required required>
-            <small>Vous pouvez charger jusqu'à 4 photos.</small>
-        </div>
-        <!-- Commentaire -->
-        <div class="form-group">
-            <label for="commentaireCombles">Commentaire :</label>
-             <textarea id="commentaireCombles" name="commentaireCombles" rows="4" placeholder="Ajoutez des commentaires"></textarea>
-        </div>
-
-
-    </fieldset>
-
-    <!-- Boutons de navigation -->
-    <div class="form-actions">
-        <button type="button">Précédent</button>
-        <button type="button">Suivant</button>
     </div>
-</div>
 
-<!-- Page 7 : Informations Chauffage -->
-<div class="page" id="page7">
-    <fieldset>
-        <legend>Informations Chauffage</legend>
+    <!-- Page 9 : Informations sur la Ventilation -->
+    <div class="page" id="page9">
+        <fieldset>
+            <legend>Informations sur la Ventilation</legend>
 
-        <!-- Type de chauffage -->
-        <div class="form-group">
-            <label for="typeChauffage">Type de chauffage :</label>
-            <select id="typeChauffage" name="typeChauffage" data-required required>
-                <option value="">Sélectionnez une option</option>
-                <option value="chaudiereGaz">Chaudière gaz</option>
-                <option value="chaudiereFioul">Chaudière fioul</option>
-                <option value="pompeChaleur">Pompe à chaleur</option>
-                <option value="chauffageElectrique">Chauffage électrique</option>
-                <option value="poeleBois">Poêle à bois</option>
-                <option value="poeleGranules">Poêle à granulés</option>
-                <option value="autre">Autre</option>
-            </select>
+            <!-- Système de ventilation -->
+            <div class="form-group">
+                <label for="systemeVentilation">Système de ventilation :</label>
+                <select id="systemeVentilation" name="systemeVentilation" data-required required>
+                    <option value="">Sélectionnez une option</option>
+                    <option value="ouvertureFenetres">Ouverture des fenêtres</option>
+                    <option value="vmcSimpleFlux">VMC simple flux</option>
+                    <option value="vmcDoubleFlux">VMC double flux</option>
+                    <option value="ventilationNaturelle">Ventilation naturelle</option>
+                    <option value="autre">Autre</option>
+                </select>
+            </div>
+
+            <!-- Année -->
+            <div class="form-group">
+                <label for="anneeVentilation">Année d'installation :</label>
+                <select id="anneeVentilation" name="anneeVentilation" data-required required>
+                    <option value="">Sélectionnez une option</option>
+                    <option value="avant1948">Avant 1948</option>
+                    <option value="1948-1974">Entre 1948 et 1974</option>
+                    <option value="1975-1977">Entre 1975 et 1977</option>
+                    <option value="1978-1982">Entre 1978 et 1982</option>
+                    <option value="1983-1988">Entre 1983 et 1988</option>
+                    <option value="1989-2000">Entre 1989 et 2000</option>
+                    <option value="2001-2005">Entre 2001 et 2005</option>
+                    <option value="2006-2012">Entre 2006 et 2012</option>
+                    <option value="2013-2021">Entre 2013 et 2021</option>
+                    <option value="apres2021">Après 2021</option>
+                </select>
+            </div>
+
+            <!-- Système de refroidissement -->
+            <div class="form-group">
+                <label for="systemeRefroidissement">Système de refroidissement :</label>
+                <select id="systemeRefroidissement" name="systemeRefroidissement" data-required required>
+                    <option value="">Sélectionnez une option</option>
+                    <option value="aucun">Aucun</option>
+                    <option value="climatisationFixe">Climatisation fixe</option>
+                    <option value="climatisationMobile">Climatisation mobile</option>
+                    <option value="ventilateurs">Ventilateurs</option>
+                    <option value="autre">Autre</option>
+                </select>
+            </div>
+
+            <!-- Photos -->
+            <div class="form-group">
+                <label for="photosVentilation">Photos de la ventilation :</label>
+                <input type="file" id="photosVentilation" name="photosVentilation[]" accept="image/*" multiple
+                    data-required required>
+                <small>Vous pouvez charger jusqu'à 4 photos.</small>
+            </div>
+
+            <!-- Commentaire -->
+            <div class="form-group">
+                <label for="commentaireVentilation">Commentaire :</label>
+                <textarea id="commentaireVentilation" name="commentaireVentilation" rows="4"
+                    placeholder="Ajoutez des commentaires"></textarea>
+            </div>
+        </fieldset>
+
+        <!-- Boutons de navigation -->
+        <div class="form-actions">
+            <button type="button">Précédent</button>
+            <button type="button">Terminer</button>
+
+
         </div>
-
-        <!-- Type d'émetteur -->
-        <div class="form-group">
-            <label for="typeEmetteur">Type d'émetteur :</label>
-            <select id="typeEmetteur" name="typeEmetteur" data-required required>
-                <option value="">Sélectionnez une option</option>
-                <option value="radiateurs">Radiateurs</option>
-                <option value="plancherChauffant">Plancher chauffant</option>
-                <option value="convecteurs">Convecteurs</option>
-                <option value="autre">Autre</option>
-            </select>
-        </div>
-
-        <!-- Type de régulation -->
-        <div class="form-group">
-            <label for="typeRegulation">Type de régulation :</label>
-            <select id="typeRegulation" name="typeRegulation" data-required required>
-                <option value="">Sélectionnez une option</option>
-                <option value="thermostatManuel">Thermostat manuel</option>
-                <option value="thermostatProgrammable">Thermostat programmable</option>
-                <option value="régulationAutomatique">Régulation automatique</option>
-                <option value="autre">Autre</option>
-            </select>
-        </div>
-
-        <!-- Année -->
-        <div class="form-group">
-            <label for="anneeChauffage">Année d'installation :</label>
-            <select id="anneeChauffage" name="anneeChauffage" >
-                <option value="">Sélectionnez une option</option>
-                <option value="avant1948">Avant 1948</option>
-                <option value="1948-1974">Entre 1948 et 1974</option>
-                <option value="1975-1977">Entre 1975 et 1977</option>
-                <option value="1978-1982">Entre 1978 et 1982</option>
-                <option value="1983-1988">Entre 1983 et 1988</option>
-                <option value="1989-2000">Entre 1989 et 2000</option>
-                <option value="2001-2005">Entre 2001 et 2005</option>
-                <option value="2006-2012">Entre 2006 et 2012</option>
-                <option value="2013-2021">Entre 2013 et 2021</option>
-                <option value="apres2021">Après 2021</option>
-            </select>
-        </div>
-
-        <!-- Photos -->
-        <div class="form-group">
-            <label for="photosChauffage">Photos du chauffage :</label>
-            <input type="file" id="photosChauffage" name="photosChauffage[]" accept="image/*" multiple data-required required>
-            <small>Vous pouvez charger jusqu'à 4 photos.</small>
-        </div>
-
-        <!-- Commentaire -->
-        <div class="form-group">
-            <label for="commentaireChauffage">Commentaire :</label>
-            <textarea id="commentaireChauffage" name="commentaireChauffage" rows="4" placeholder="Ajoutez des commentaires"></textarea>
-        </div>
-    </fieldset>
-
-    <!-- Boutons de navigation -->
-    <div class="form-actions">
-        <button type="button">Précédent</button>
-        <button type="button">Suivant</button>
-        
     </div>
-</div>
-
-<!-- Page 8 : Informations sur le Système ECS -->
-<div class="page" id="page8">
-    <fieldset>
-        <legend>Informations sur le Système ECS</legend>
-
-        <!-- Production système ECS -->
-        <div class="form-group">
-            <label for="productionECS">Production système ECS :</label>
-            <select id="productionECS" name="productionECS" data-required required>
-                <option value="">Sélectionnez une option</option>
-                <option value="chauffeEauElectrique">Chauffe-eau électrique</option>
-                <option value="chauffeEauGaz">Chauffe-eau gaz</option>
-                <option value="ballonThermodynamique">Ballon thermodynamique</option>
-                <option value="chauffeEauSolaire">Chauffe-eau solaire</option>
-                <option value="ecsPompeChaleur">ECS via pompe à chaleur</option>
-                <option value="autre">Autre</option>
-            </select>
-        </div>
-
-        <!-- ECS lié au chauffage -->
-        <div class="form-group">
-            <label for="ecsLieChauffage">ECS lié au chauffage ? :</label>
-            <select id="ecsLieChauffage" name="ecsLieChauffage" data-required required>
-                <option value="">Sélectionnez une option</option>
-                <option value="oui">Oui</option>
-                <option value="non">Non</option>
-            </select>
-        </div>
-
-        <!-- Capacité -->
-        <div class="form-group">
-            <label for="capaciteECS">Capacité (litres) :</label>
-            <input type="number" id="capaciteECS" name="capaciteECS" step="1" placeholder="Exemple : 200" data-required required>
-        </div>
-
-        <!-- Année -->
-        <div class="form-group">
-            <label for="anneeECS">Année d'installation :</label>
-            <select id="anneeECS" name="anneeECS" >
-                <option value="">Sélectionnez une option</option>
-                <option value="avant1948">Avant 1948</option>
-                <option value="1948-1974">Entre 1948 et 1974</option>
-                <option value="1975-1977">Entre 1975 et 1977</option>
-                <option value="1978-1982">Entre 1978 et 1982</option>
-                <option value="1983-1988">Entre 1983 et 1988</option>
-                <option value="1989-2000">Entre 1989 et 2000</option>
-                <option value="2001-2005">Entre 2001 et 2005</option>
-                <option value="2006-2012">Entre 2006 et 2012</option>
-                <option value="2013-2021">Entre 2013 et 2021</option>
-                <option value="apres2021">Après 2021</option>
-            </select>
-        </div>
-
-        <!-- Photos -->
-        <div class="form-group">
-            <label for="photosECS">Photos du système ECS :</label>
-            <input type="file" id="photosECS" name="photosECS[]" accept="image/*" multiple data-required required>
-            <small>Vous pouvez charger jusqu'à 4 photos.</small>
-        </div>
-
-        <!-- Commentaire -->
-        <div class="form-group">
-            <label for="commentaireECS">Commentaire :</label>
-            <textarea id="commentaireECS" name="commentaireECS" rows="4" placeholder="Ajoutez des commentaires"></textarea>
-        </div>
-    </fieldset>
-
-    <!-- Boutons de navigation -->
-    <div class="form-actions">
-        <button type="button">Précédent</button>
-        <button type="button">Suivant</button>
-    </div>
-</div>
-
-<!-- Page 9 : Informations sur la Ventilation -->
-<div class="page" id="page9">
-    <fieldset>
-        <legend>Informations sur la Ventilation</legend>
-
-        <!-- Système de ventilation -->
-        <div class="form-group">
-            <label for="systemeVentilation">Système de ventilation :</label>
-            <select id="systemeVentilation" name="systemeVentilation" data-required required>
-                <option value="">Sélectionnez une option</option>
-                <option value="ouvertureFenetres">Ouverture des fenêtres</option>
-                <option value="vmcSimpleFlux">VMC simple flux</option>
-                <option value="vmcDoubleFlux">VMC double flux</option>
-                <option value="ventilationNaturelle">Ventilation naturelle</option>
-                <option value="autre">Autre</option>
-            </select>
-        </div>
-
-        <!-- Année -->
-        <div class="form-group">
-            <label for="anneeVentilation">Année d'installation :</label>
-            <select id="anneeVentilation" name="anneeVentilation" data-required required>
-                <option value="">Sélectionnez une option</option>
-                <option value="avant1948">Avant 1948</option>
-                <option value="1948-1974">Entre 1948 et 1974</option>
-                <option value="1975-1977">Entre 1975 et 1977</option>
-                <option value="1978-1982">Entre 1978 et 1982</option>
-                <option value="1983-1988">Entre 1983 et 1988</option>
-                <option value="1989-2000">Entre 1989 et 2000</option>
-                <option value="2001-2005">Entre 2001 et 2005</option>
-                <option value="2006-2012">Entre 2006 et 2012</option>
-                <option value="2013-2021">Entre 2013 et 2021</option>
-                <option value="apres2021">Après 2021</option>
-            </select>
-        </div>
-
-        <!-- Système de refroidissement -->
-        <div class="form-group">
-            <label for="systemeRefroidissement">Système de refroidissement :</label>
-            <select id="systemeRefroidissement" name="systemeRefroidissement" data-required required>
-                <option value="">Sélectionnez une option</option>
-                <option value="aucun">Aucun</option>
-                <option value="climatisationFixe">Climatisation fixe</option>
-                <option value="climatisationMobile">Climatisation mobile</option>
-                <option value="ventilateurs">Ventilateurs</option>
-                <option value="autre">Autre</option>
-            </select>
-        </div>
-
-        <!-- Photos -->
-        <div class="form-group">
-            <label for="photosVentilation">Photos de la ventilation :</label>
-            <input type="file" id="photosVentilation" name="photosVentilation[]" accept="image/*" multiple data-required required>
-            <small>Vous pouvez charger jusqu'à 4 photos.</small>
-        </div>
-
-        <!-- Commentaire -->
-        <div class="form-group">
-            <label for="commentaireVentilation">Commentaire :</label>
-            <textarea id="commentaireVentilation" name="commentaireVentilation" rows="4" placeholder="Ajoutez des commentaires"></textarea>
-        </div>
-    </fieldset>
-
-    <!-- Boutons de navigation -->
-    <div class="form-actions">
-        <button type="button">Précédent</button>
-        <button type="button">Terminer</button>
-        <button id="finishButton" type="button">Terminer</button>
-        <button id="exportButton" type="button">Exporter en PDF</button>
-    </div>
-</div>
 
 
 
